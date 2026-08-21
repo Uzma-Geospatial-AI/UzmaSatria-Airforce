@@ -1,0 +1,47 @@
+name: CI
+
+# Runs on every push and pull request, so a commit landing on the repo shows
+# up under Actions with a pass or fail against it. The previous workflow here
+# built and pushed a Docker image; that was removed with the container tooling
+# in "chore: drop Docker packaging", which left the repo with no CI at all.
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+# A second push to the same branch makes the first run's answer irrelevant.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Test & build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Unit tests
+        run: npm test
+
+      # Reported but not enforced. The tree carries pre-existing lint debt —
+      # no-explicit-any across the API routes and map component, and refs read
+      # during render in a few clock components — that predates this workflow.
+      # Failing the build on it would mean CI is red from its first run and
+      # everyone learns to ignore it. Clear the backlog, then drop this line.
+      - name: Lint
+        run: npm run lint
+        continue-on-error: true
+
+      - name: Production build
+        run: npm run build
