@@ -3,12 +3,13 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Keyboard, X } from 'lucide-react';
+import { FEATURES } from '@/lib/features';
 
 const SHORTCUTS = [
   { key: 'F', desc: 'Toggle fullscreen' },
   { key: 'S', desc: 'Share current view' },
   { key: 'L', desc: 'Toggle layer panel' },
-  { key: 'M', desc: 'Toggle markets panel' },
+  ...(FEATURES.markets ? [{ key: 'M', desc: 'Toggle markets panel' }] : []),
   { key: 'I', desc: 'Toggle intel feed' },
   { key: 'R', desc: 'Reset to global view' },
   { key: '?', desc: 'Show this help' },

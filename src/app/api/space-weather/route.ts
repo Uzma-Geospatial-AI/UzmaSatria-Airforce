@@ -31,14 +31,22 @@ export async function GET() {
       kpTimestamp = latest.time_tag || '';
     }
 
-    // Storm level from Kp
+    /* Storm level from Kp — NOAA SWPC geomagnetic storm (G) scale.
+       https://www.swpc.noaa.gov/noaa-scales-explanation
+         Kp 9 → G5 Extreme      Kp 6 → G2 Moderate
+         Kp 8 → G4 Severe       Kp 5 → G1 Minor
+         Kp 7 → G3 Strong       Kp 0-4 → no storm (quiet / unsettled / active)
+       The previous mapping was shifted one level down, so it labelled Kp4 —
+       which is below storm threshold entirely — as "Minor (G1)", and reported
+       every real storm one class more severe than NOAA does. */
     let stormLevel = 'Quiet';
     let stormColor = '#00E676';
-    if (kpIndex >= 8) { stormLevel = 'Extreme (G5)'; stormColor = '#FF1744'; }
-    else if (kpIndex >= 7) { stormLevel = 'Severe (G4)'; stormColor = '#FF3D3D'; }
-    else if (kpIndex >= 6) { stormLevel = 'Strong (G3)'; stormColor = '#FF9500'; }
-    else if (kpIndex >= 5) { stormLevel = 'Moderate (G2)'; stormColor = '#FFD700'; }
-    else if (kpIndex >= 4) { stormLevel = 'Minor (G1)'; stormColor = '#FFD700'; }
+    if (kpIndex >= 9) { stormLevel = 'Extreme (G5)'; stormColor = '#FF1744'; }
+    else if (kpIndex >= 8) { stormLevel = 'Severe (G4)'; stormColor = '#FF3D3D'; }
+    else if (kpIndex >= 7) { stormLevel = 'Strong (G3)'; stormColor = '#FF9500'; }
+    else if (kpIndex >= 6) { stormLevel = 'Moderate (G2)'; stormColor = '#FFD700'; }
+    else if (kpIndex >= 5) { stormLevel = 'Minor (G1)'; stormColor = '#FFD700'; }
+    else if (kpIndex >= 4) { stormLevel = 'Active'; stormColor = '#D4AF37'; }
     else if (kpIndex >= 3) { stormLevel = 'Unsettled'; stormColor = '#D4AF37'; }
 
     // Recent alerts

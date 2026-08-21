@@ -1,0 +1,1242 @@
+{
+ "source": "ImStrat Corporation \u2014 Target Category Reporting List for Imagery Intelligence Analysis (2006)",
+ "note": "19 NATO-style IMINT target categories. Every category shares the same 7-section reporting form (Annex A).",
+ "category_count": 19,
+ "categories": [
+  {
+   "code": "01",
+   "name": "Airfields",
+   "source_page": 32,
+   "sections": [
+    {
+     "no": 1,
+     "name": "LOCATION AND TYPE",
+     "fields": [
+      "Confirmed Location",
+      "Type",
+      "Function, Nature and Subordination"
+     ]
+    },
+    {
+     "no": 2,
+     "name": "STATUS",
+     "fields": [
+      "Deployment",
+      "Serviceability",
+      "Occupation",
+      "Capability",
+      "Hardening",
+      "Construction",
+      "Camouflage"
+     ]
+    },
+    {
+     "no": 3,
+     "name": "EQUIPMENT AND ACTIVITY",
+     "fields": []
+    },
+    {
+     "no": 4,
+     "name": "DEFENCE",
+     "fields": [
+      "Local Air Defence",
+      "Surface",
+      "Passive Defence"
+     ]
+    },
+    {
+     "no": 5,
+     "name": "DAMAGE ASSESSMENT",
+     "fields": [
+      "Physical Damage",
+      "Functional Damage",
+      "Collateral Damage"
+     ]
+    },
+    {
+     "no": 6,
+     "name": "FACILITIES DESCRIPTION",
+     "fields": [
+      "Primary Facilities",
+      "Support Facilities"
+     ]
+    },
+    {
+     "no": 7,
+     "name": "ANALYST COMMENTS",
+     "fields": []
+    }
+   ]
+  },
+  {
+   "code": "02",
+   "name": "Missile and Artillery Systems",
+   "source_page": 33,
+   "sections": [
+    {
+     "no": 1,
+     "name": "LOCATION AND TYPE",
+     "fields": [
+      "Confirmed Location",
+      "Type",
+      "Function, Nature and Subordination"
+     ]
+    },
+    {
+     "no": 2,
+     "name": "STATUS",
+     "fields": [
+      "Deployment",
+      "Serviceability",
+      "Occupation",
+      "Capability",
+      "Hardening",
+      "Construction",
+      "Camouflage"
+     ]
+    },
+    {
+     "no": 3,
+     "name": "EQUIPMENT AND ACTIVITY",
+     "fields": []
+    },
+    {
+     "no": 4,
+     "name": "DEFENCE",
+     "fields": [
+      "Local Air Defence",
+      "Surface",
+      "Passive Defence"
+     ]
+    },
+    {
+     "no": 5,
+     "name": "DAMAGE ASSESSMENT",
+     "fields": [
+      "Physical Damage",
+      "Functional Damage",
+      "Collateral Damage"
+     ]
+    },
+    {
+     "no": 6,
+     "name": "FACILITIES DESCRIPTION",
+     "fields": [
+      "Primary Facilities",
+      "Support Facilities"
+     ]
+    },
+    {
+     "no": 7,
+     "name": "ANALYST COMMENTS",
+     "fields": []
+    }
+   ]
+  },
+  {
+   "code": "03",
+   "name": "Electronic Installations",
+   "source_page": 34,
+   "sections": [
+    {
+     "no": 1,
+     "name": "LOCATION AND TYPE",
+     "fields": [
+      "Confirmed Location",
+      "Type",
+      "Function, Nature and Subordination"
+     ]
+    },
+    {
+     "no": 2,
+     "name": "STATUS",
+     "fields": [
+      "Deployment",
+      "Serviceability",
+      "Occupation",
+      "Capability",
+      "Hardening",
+      "Construction",
+      "Camouflage"
+     ]
+    },
+    {
+     "no": 3,
+     "name": "EQUIPMENT AND ACTIVITY",
+     "fields": []
+    },
+    {
+     "no": 4,
+     "name": "DEFENCE",
+     "fields": [
+      "Local Air Defence",
+      "Surface",
+      "Passive Defence"
+     ]
+    },
+    {
+     "no": 5,
+     "name": "DAMAGE ASSESSMENT",
+     "fields": [
+      "Physical Damage",
+      "Functional Damage",
+      "Collateral Damage"
+     ]
+    },
+    {
+     "no": 6,
+     "name": "FACILITIES DESCRIPTION",
+     "fields": [
+      "Primary Facilities",
+      "Support Facilities"
+     ]
+    },
+    {
+     "no": 7,
+     "name": "ANALYST COMMENTS",
+     "fields": []
+    }
+   ]
+  },
+  {
+   "code": "04",
+   "name": "Military HQ and Barracks",
+   "source_page": 35,
+   "sections": [
+    {
+     "no": 1,
+     "name": "LOCATION AND TYPE",
+     "fields": [
+      "Confirmed Location",
+      "Type",
+      "Function, Nature and Subordination"
+     ]
+    },
+    {
+     "no": 2,
+     "name": "STATUS",
+     "fields": [
+      "Deployment",
+      "Serviceability",
+      "Occupation",
+      "Capability",
+      "Hardening",
+      "Construction",
+      "Camouflage"
+     ]
+    },
+    {
+     "no": 3,
+     "name": "EQUIPMENT AND ACTIVITY",
+     "fields": []
+    },
+    {
+     "no": 4,
+     "name": "DEFENCE",
+     "fields": [
+      "Local Air Defence",
+      "Surface",
+      "Passive Defence"
+     ]
+    },
+    {
+     "no": 5,
+     "name": "DAMAGE ASSESSMENT",
+     "fields": [
+      "Physical Damage",
+      "Functional Damage",
+      "Collateral Damage"
+     ]
+    },
+    {
+     "no": 6,
+     "name": "FACILITIES DESCRIPTION",
+     "fields": [
+      "Primary Facilities",
+      "Support Facilities"
+     ]
+    },
+    {
+     "no": 7,
+     "name": "ANALYST COMMENTS",
+     "fields": []
+    }
+   ]
+  },
+  {
+   "code": "05",
+   "name": "Storage and Repair Installation",
+   "source_page": 36,
+   "sections": [
+    {
+     "no": 1,
+     "name": "LOCATION AND TYPE",
+     "fields": [
+      "Confirmed Location",
+      "Type",
+      "Function, Nature and Subordination"
+     ]
+    },
+    {
+     "no": 2,
+     "name": "STATUS",
+     "fields": [
+      "Deployment",
+      "Serviceability",
+      "Occupation",
+      "Capability",
+      "Hardening",
+      "Construction",
+      "Camouflage"
+     ]
+    },
+    {
+     "no": 3,
+     "name": "EQUIPMENT AND ACTIVITY",
+     "fields": []
+    },
+    {
+     "no": 4,
+     "name": "DEFENCE",
+     "fields": [
+      "Local Air Defence",
+      "Surface",
+      "Passive Defence"
+     ]
+    },
+    {
+     "no": 5,
+     "name": "DAMAGE ASSESSMENT",
+     "fields": [
+      "Physical Damage",
+      "Functional Damage",
+      "Collateral Damage"
+     ]
+    },
+    {
+     "no": 6,
+     "name": "FACILITIES DESCRIPTION",
+     "fields": [
+      "Primary Facilities",
+      "Support Facilities"
+     ]
+    },
+    {
+     "no": 7,
+     "name": "ANALYST COMMENTS",
+     "fields": []
+    }
+   ]
+  },
+  {
+   "code": "06",
+   "name": "Military Activity",
+   "source_page": 37,
+   "sections": [
+    {
+     "no": 1,
+     "name": "LOCATION AND TYPE",
+     "fields": [
+      "Confirmed Location",
+      "Type",
+      "Function, Nature and Subordination"
+     ]
+    },
+    {
+     "no": 2,
+     "name": "STATUS",
+     "fields": [
+      "Deployment",
+      "Serviceability",
+      "Occupation",
+      "Capability",
+      "Hardening",
+      "Construction",
+      "Camouflage"
+     ]
+    },
+    {
+     "no": 3,
+     "name": "EQUIPMENT AND ACTIVITY",
+     "fields": []
+    },
+    {
+     "no": 4,
+     "name": "DEFENCE",
+     "fields": [
+      "Local Air Defence",
+      "Surface",
+      "Passive Defence"
+     ]
+    },
+    {
+     "no": 5,
+     "name": "DAMAGE ASSESSMENT",
+     "fields": [
+      "Physical Damage",
+      "Functional Damage",
+      "Collateral Damage"
+     ]
+    },
+    {
+     "no": 6,
+     "name": "FACILITIES DESCRIPTION",
+     "fields": [
+      "Primary Facilities",
+      "Support Facilities"
+     ]
+    },
+    {
+     "no": 7,
+     "name": "ANALYST COMMENTS",
+     "fields": []
+    }
+   ]
+  },
+  {
+   "code": "07",
+   "name": "Obstacle Crossing",
+   "source_page": 38,
+   "sections": [
+    {
+     "no": 1,
+     "name": "LOCATION AND TYPE",
+     "fields": [
+      "Confirmed Location",
+      "Type",
+      "Function, Nature and Subordination"
+     ]
+    },
+    {
+     "no": 2,
+     "name": "STATUS",
+     "fields": [
+      "Deployment",
+      "Serviceability",
+      "Occupation",
+      "Capability",
+      "Hardening",
+      "Construction",
+      "Camouflage"
+     ]
+    },
+    {
+     "no": 3,
+     "name": "EQUIPMENT AND ACTIVITY",
+     "fields": []
+    },
+    {
+     "no": 4,
+     "name": "DEFENCE",
+     "fields": [
+      "Local Air Defence",
+      "Surface",
+      "Passive Defence"
+     ]
+    },
+    {
+     "no": 5,
+     "name": "DAMAGE ASSESSMENT",
+     "fields": [
+      "Physical Damage",
+      "Functional Damage",
+      "Collateral Damage"
+     ]
+    },
+    {
+     "no": 6,
+     "name": "FACILITIES DESCRIPTION",
+     "fields": [
+      "Primary Facilities",
+      "Support Facilities"
+     ]
+    },
+    {
+     "no": 7,
+     "name": "ANALYST COMMENTS",
+     "fields": []
+    }
+   ]
+  },
+  {
+   "code": "08",
+   "name": "Shipping",
+   "source_page": 39,
+   "sections": [
+    {
+     "no": 1,
+     "name": "LOCATION AND TYPE",
+     "fields": [
+      "Confirmed Location",
+      "Type",
+      "Function, Nature and Subordination"
+     ]
+    },
+    {
+     "no": 2,
+     "name": "STATUS",
+     "fields": [
+      "Deployment",
+      "Serviceability",
+      "Occupation",
+      "Capability",
+      "Hardening",
+      "Construction",
+      "Camouflage"
+     ]
+    },
+    {
+     "no": 3,
+     "name": "EQUIPMENT AND ACTIVITY",
+     "fields": []
+    },
+    {
+     "no": 4,
+     "name": "DEFENCE",
+     "fields": [
+      "Local Air Defence",
+      "Surface",
+      "Passive Defence"
+     ]
+    },
+    {
+     "no": 5,
+     "name": "DAMAGE ASSESSMENT",
+     "fields": [
+      "Physical Damage",
+      "Functional Damage",
+      "Collateral Damage"
+     ]
+    },
+    {
+     "no": 6,
+     "name": "FACILITIES DESCRIPTION",
+     "fields": [
+      "Primary Facilities",
+      "Support Facilities"
+     ]
+    },
+    {
+     "no": 7,
+     "name": "ANALYST COMMENTS",
+     "fields": []
+    }
+   ]
+  },
+  {
+   "code": "09",
+   "name": "Route Reconnaissance",
+   "source_page": 40,
+   "sections": [
+    {
+     "no": 1,
+     "name": "LOCATION AND TYPE",
+     "fields": [
+      "Confirmed Location",
+      "Type",
+      "Function, Nature and Subordination"
+     ]
+    },
+    {
+     "no": 2,
+     "name": "STATUS",
+     "fields": [
+      "Deployment",
+      "Serviceability",
+      "Occupation",
+      "Capability",
+      "Hardening",
+      "Construction",
+      "Camouflage"
+     ]
+    },
+    {
+     "no": 3,
+     "name": "EQUIPMENT AND ACTIVITY",
+     "fields": []
+    },
+    {
+     "no": 4,
+     "name": "DEFENCE",
+     "fields": [
+      "Local Air Defence",
+      "Surface",
+      "Passive Defence"
+     ]
+    },
+    {
+     "no": 5,
+     "name": "DAMAGE ASSESSMENT",
+     "fields": [
+      "Physical Damage",
+      "Functional Damage",
+      "Collateral Damage"
+     ]
+    },
+    {
+     "no": 6,
+     "name": "FACILITIES DESCRIPTION",
+     "fields": [
+      "Primary Facilities",
+      "Support Facilities"
+     ]
+    },
+    {
+     "no": 7,
+     "name": "ANALYST COMMENTS",
+     "fields": []
+    }
+   ]
+  },
+  {
+   "code": "10",
+   "name": "Terrain Reconnaissance",
+   "source_page": 41,
+   "sections": [
+    {
+     "no": 1,
+     "name": "LOCATION AND TYPE",
+     "fields": [
+      "Confirmed Location",
+      "Type",
+      "Function, Nature and Subordination"
+     ]
+    },
+    {
+     "no": 2,
+     "name": "STATUS",
+     "fields": [
+      "Deployment",
+      "Serviceability",
+      "Occupation",
+      "Capability",
+      "Hardening",
+      "Construction",
+      "Camouflage"
+     ]
+    },
+    {
+     "no": 3,
+     "name": "EQUIPMENT AND ACTIVITY",
+     "fields": []
+    },
+    {
+     "no": 4,
+     "name": "DEFENCE",
+     "fields": [
+      "Local Air Defence",
+      "Surface",
+      "Passive Defence"
+     ]
+    },
+    {
+     "no": 5,
+     "name": "DAMAGE ASSESSMENT",
+     "fields": [
+      "Physical Damage",
+      "Functional Damage",
+      "Collateral Damage"
+     ]
+    },
+    {
+     "no": 6,
+     "name": "FACILITIES DESCRIPTION",
+     "fields": [
+      "Primary Facilities",
+      "Support Facilities"
+     ]
+    },
+    {
+     "no": 7,
+     "name": "ANALYST COMMENTS",
+     "fields": []
+    }
+   ]
+  },
+  {
+   "code": "11",
+   "name": "Coastal Reconnaissance",
+   "source_page": 42,
+   "sections": [
+    {
+     "no": 1,
+     "name": "LOCATION AND TYPE",
+     "fields": [
+      "Confirmed Location",
+      "Type",
+      "Function, Nature and Subordination"
+     ]
+    },
+    {
+     "no": 2,
+     "name": "STATUS",
+     "fields": [
+      "Deployment",
+      "Serviceability",
+      "Occupation",
+      "Capability",
+      "Hardening",
+      "Construction",
+      "Camouflage"
+     ]
+    },
+    {
+     "no": 3,
+     "name": "EQUIPMENT AND ACTIVITY",
+     "fields": []
+    },
+    {
+     "no": 4,
+     "name": "DEFENCE",
+     "fields": [
+      "Local Air Defence",
+      "Surface",
+      "Passive Defence"
+     ]
+    },
+    {
+     "no": 5,
+     "name": "DAMAGE ASSESSMENT",
+     "fields": [
+      "Physical Damage",
+      "Functional Damage",
+      "Collateral Damage"
+     ]
+    },
+    {
+     "no": 6,
+     "name": "FACILITIES DESCRIPTION",
+     "fields": [
+      "Primary Facilities",
+      "Support Facilities"
+     ]
+    },
+    {
+     "no": 7,
+     "name": "ANALYST COMMENTS",
+     "fields": []
+    }
+   ]
+  },
+  {
+   "code": "12",
+   "name": "Bridges",
+   "source_page": 43,
+   "sections": [
+    {
+     "no": 1,
+     "name": "LOCATION AND TYPE",
+     "fields": [
+      "Confirmed Location",
+      "Type",
+      "Function, Nature and Subordination"
+     ]
+    },
+    {
+     "no": 2,
+     "name": "STATUS",
+     "fields": [
+      "Deployment",
+      "Serviceability",
+      "Occupation",
+      "Capability",
+      "Hardening",
+      "Construction",
+      "Camouflage"
+     ]
+    },
+    {
+     "no": 3,
+     "name": "EQUIPMENT AND ACTIVITY",
+     "fields": []
+    },
+    {
+     "no": 4,
+     "name": "DEFENCE",
+     "fields": [
+      "Local Air Defence",
+      "Surface",
+      "Passive Defence"
+     ]
+    },
+    {
+     "no": 5,
+     "name": "DAMAGE ASSESSMENT",
+     "fields": [
+      "Physical Damage",
+      "Functional Damage",
+      "Collateral Damage"
+     ]
+    },
+    {
+     "no": 6,
+     "name": "FACILITIES DESCRIPTION",
+     "fields": [
+      "Primary Facilities",
+      "Support Facilities"
+     ]
+    },
+    {
+     "no": 7,
+     "name": "ANALYST COMMENTS",
+     "fields": []
+    }
+   ]
+  },
+  {
+   "code": "13",
+   "name": "Water Control Installations",
+   "source_page": 44,
+   "sections": [
+    {
+     "no": 1,
+     "name": "LOCATION AND TYPE",
+     "fields": [
+      "Confirmed Location",
+      "Type",
+      "Function, Nature and Subordination"
+     ]
+    },
+    {
+     "no": 2,
+     "name": "STATUS",
+     "fields": [
+      "Deployment",
+      "Serviceability",
+      "Occupation",
+      "Capability",
+      "Hardening",
+      "Construction",
+      "Camouflage"
+     ]
+    },
+    {
+     "no": 3,
+     "name": "EQUIPMENT AND ACTIVITY",
+     "fields": []
+    },
+    {
+     "no": 4,
+     "name": "DEFENCE",
+     "fields": [
+      "Local Air Defence",
+      "Surface",
+      "Passive Defence"
+     ]
+    },
+    {
+     "no": 5,
+     "name": "DAMAGE ASSESSMENT",
+     "fields": [
+      "Physical Damage",
+      "Functional Damage",
+      "Collateral Damage"
+     ]
+    },
+    {
+     "no": 6,
+     "name": "FACILITIES DESCRIPTION",
+     "fields": [
+      "Primary Facilities",
+      "Support Facilities"
+     ]
+    },
+    {
+     "no": 7,
+     "name": "ANALYST COMMENTS",
+     "fields": []
+    }
+   ]
+  },
+  {
+   "code": "14",
+   "name": "Port Facilities",
+   "source_page": 45,
+   "sections": [
+    {
+     "no": 1,
+     "name": "LOCATION AND TYPE",
+     "fields": [
+      "Confirmed Location",
+      "Type",
+      "Function, Nature and Subordination"
+     ]
+    },
+    {
+     "no": 2,
+     "name": "STATUS",
+     "fields": [
+      "Deployment",
+      "Serviceability",
+      "Occupation",
+      "Capability",
+      "Hardening",
+      "Construction",
+      "Camouflage"
+     ]
+    },
+    {
+     "no": 3,
+     "name": "EQUIPMENT AND ACTIVITY",
+     "fields": []
+    },
+    {
+     "no": 4,
+     "name": "DEFENCE",
+     "fields": [
+      "Local Air Defence",
+      "Surface",
+      "Passive Defence"
+     ]
+    },
+    {
+     "no": 5,
+     "name": "DAMAGE ASSESSMENT",
+     "fields": [
+      "Physical Damage",
+      "Functional Damage",
+      "Collateral Damage"
+     ]
+    },
+    {
+     "no": 6,
+     "name": "FACILITIES DESCRIPTION",
+     "fields": [
+      "Primary Facilities",
+      "Support Facilities"
+     ]
+    },
+    {
+     "no": 7,
+     "name": "ANALYST COMMENTS",
+     "fields": []
+    }
+   ]
+  },
+  {
+   "code": "15",
+   "name": "Rail Installations",
+   "source_page": 46,
+   "sections": [
+    {
+     "no": 1,
+     "name": "LOCATION AND TYPE",
+     "fields": [
+      "Confirmed Location",
+      "Type",
+      "Function, Nature and Subordination"
+     ]
+    },
+    {
+     "no": 2,
+     "name": "STATUS",
+     "fields": [
+      "Deployment",
+      "Serviceability",
+      "Occupation",
+      "Capability",
+      "Hardening",
+      "Construction",
+      "Camouflage"
+     ]
+    },
+    {
+     "no": 3,
+     "name": "EQUIPMENT AND ACTIVITY",
+     "fields": []
+    },
+    {
+     "no": 4,
+     "name": "DEFENCE",
+     "fields": [
+      "Local Air Defence",
+      "Surface",
+      "Passive Defence"
+     ]
+    },
+    {
+     "no": 5,
+     "name": "DAMAGE ASSESSMENT",
+     "fields": [
+      "Physical Damage",
+      "Functional Damage",
+      "Collateral Damage"
+     ]
+    },
+    {
+     "no": 6,
+     "name": "FACILITIES DESCRIPTION",
+     "fields": [
+      "Primary Facilities",
+      "Support Facilities"
+     ]
+    },
+    {
+     "no": 7,
+     "name": "ANALYST COMMENTS",
+     "fields": []
+    }
+   ]
+  },
+  {
+   "code": "16",
+   "name": "Industrial Installations",
+   "source_page": 47,
+   "sections": [
+    {
+     "no": 1,
+     "name": "LOCATION AND TYPE",
+     "fields": [
+      "Confirmed Location",
+      "Type",
+      "Function, Nature and Subordination"
+     ]
+    },
+    {
+     "no": 2,
+     "name": "STATUS",
+     "fields": [
+      "Deployment",
+      "Serviceability",
+      "Occupation",
+      "Capability",
+      "Hardening",
+      "Construction",
+      "Camouflage"
+     ]
+    },
+    {
+     "no": 3,
+     "name": "EQUIPMENT AND ACTIVITY",
+     "fields": []
+    },
+    {
+     "no": 4,
+     "name": "DEFENCE",
+     "fields": [
+      "Local Air Defence",
+      "Surface",
+      "Passive Defence"
+     ]
+    },
+    {
+     "no": 5,
+     "name": "DAMAGE ASSESSMENT",
+     "fields": [
+      "Physical Damage",
+      "Functional Damage",
+      "Collateral Damage"
+     ]
+    },
+    {
+     "no": 6,
+     "name": "FACILITIES DESCRIPTION",
+     "fields": [
+      "Primary Facilities",
+      "Support Facilities"
+     ]
+    },
+    {
+     "no": 7,
+     "name": "ANALYST COMMENTS",
+     "fields": []
+    }
+   ]
+  },
+  {
+   "code": "17",
+   "name": "Power Installations",
+   "source_page": 48,
+   "sections": [
+    {
+     "no": 1,
+     "name": "LOCATION AND TYPE",
+     "fields": [
+      "Confirmed Location",
+      "Type",
+      "Function, Nature and Subordination"
+     ]
+    },
+    {
+     "no": 2,
+     "name": "STATUS",
+     "fields": [
+      "Deployment",
+      "Serviceability",
+      "Occupation",
+      "Capability",
+      "Hardening",
+      "Construction",
+      "Camouflage"
+     ]
+    },
+    {
+     "no": 3,
+     "name": "EQUIPMENT AND ACTIVITY",
+     "fields": []
+    },
+    {
+     "no": 4,
+     "name": "DEFENCE",
+     "fields": [
+      "Local Air Defence",
+      "Surface",
+      "Passive Defence"
+     ]
+    },
+    {
+     "no": 5,
+     "name": "DAMAGE ASSESSMENT",
+     "fields": [
+      "Physical Damage",
+      "Functional Damage",
+      "Collateral Damage"
+     ]
+    },
+    {
+     "no": 6,
+     "name": "FACILITIES DESCRIPTION",
+     "fields": [
+      "Primary Facilities",
+      "Support Facilities"
+     ]
+    },
+    {
+     "no": 7,
+     "name": "ANALYST COMMENTS",
+     "fields": []
+    }
+   ]
+  },
+  {
+   "code": "18",
+   "name": "Urban Areas / Habitations",
+   "source_page": 49,
+   "sections": [
+    {
+     "no": 1,
+     "name": "LOCATION AND TYPE",
+     "fields": [
+      "Confirmed Location",
+      "Type",
+      "Function, Nature and Subordination"
+     ]
+    },
+    {
+     "no": 2,
+     "name": "STATUS",
+     "fields": [
+      "Deployment",
+      "Serviceability",
+      "Occupation",
+      "Capability",
+      "Hardening",
+      "Construction",
+      "Camouflage"
+     ]
+    },
+    {
+     "no": 3,
+     "name": "EQUIPMENT AND ACTIVITY",
+     "fields": []
+    },
+    {
+     "no": 4,
+     "name": "DEFENCE",
+     "fields": [
+      "Local Air Defence",
+      "Surface",
+      "Passive Defence"
+     ]
+    },
+    {
+     "no": 5,
+     "name": "DAMAGE ASSESSMENT",
+     "fields": [
+      "Physical Damage",
+      "Functional Damage",
+      "Collateral Damage"
+     ]
+    },
+    {
+     "no": 6,
+     "name": "FACILITIES DESCRIPTION",
+     "fields": [
+      "Primary Facilities",
+      "Support Facilities"
+     ]
+    },
+    {
+     "no": 7,
+     "name": "ANALYST COMMENTS",
+     "fields": []
+    }
+   ]
+  },
+  {
+   "code": "19",
+   "name": "Specific Structures",
+   "source_page": 50,
+   "sections": [
+    {
+     "no": 1,
+     "name": "LOCATION AND TYPE",
+     "fields": [
+      "Confirmed Location",
+      "Type",
+      "Function, Nature and Subordination"
+     ]
+    },
+    {
+     "no": 2,
+     "name": "STATUS",
+     "fields": [
+      "Deployment",
+      "Serviceability",
+      "Occupation",
+      "Capability",
+      "Hardening",
+      "Construction",
+      "Camouflage"
+     ]
+    },
+    {
+     "no": 3,
+     "name": "EQUIPMENT AND ACTIVITY",
+     "fields": []
+    },
+    {
+     "no": 4,
+     "name": "DEFENCE",
+     "fields": [
+      "Local Air Defence",
+      "Surface",
+      "Passive Defence"
+     ]
+    },
+    {
+     "no": 5,
+     "name": "DAMAGE ASSESSMENT",
+     "fields": [
+      "Physical Damage",
+      "Functional Damage",
+      "Collateral Damage"
+     ]
+    },
+    {
+     "no": 6,
+     "name": "FACILITIES DESCRIPTION",
+     "fields": [
+      "Primary Facilities",
+      "Support Facilities"
+     ]
+    },
+    {
+     "no": 7,
+     "name": "ANALYST COMMENTS",
+     "fields": []
+    }
+   ]
+  }
+ ]
+}

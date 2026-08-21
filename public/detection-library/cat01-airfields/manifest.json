@@ -1,0 +1,1673 @@
+{
+ "category_code": "01",
+ "category": "Airfields",
+ "source": "ImStrat Corporation \u2014 Target Category Reporting List for Imagery Intelligence Analysis (2006)",
+ "view": "plan",
+ "count": 128,
+ "classes": [
+  {
+   "class": "FA PHANTOM",
+   "slug": "fa-phantom",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--fa-phantom.png",
+   "px": [
+    168,
+    220
+   ],
+   "aspect": 0.76,
+   "source_page": 4
+  },
+  {
+   "class": "F16 FALCON",
+   "slug": "f16-falcon",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--f16-falcon.png",
+   "px": [
+    136,
+    194
+   ],
+   "aspect": 0.7,
+   "source_page": 4
+  },
+  {
+   "class": "AMX",
+   "slug": "amx",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--amx.png",
+   "px": [
+    142,
+    184
+   ],
+   "aspect": 0.77,
+   "source_page": 4
+  },
+  {
+   "class": "HARRIER",
+   "slug": "harrier",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--harrier.png",
+   "px": [
+    138,
+    203
+   ],
+   "aspect": 0.68,
+   "source_page": 4
+  },
+  {
+   "class": "F5",
+   "slug": "f5",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--f5.png",
+   "px": [
+    126,
+    203
+   ],
+   "aspect": 0.62,
+   "source_page": 4
+  },
+  {
+   "class": "SUPER ETENDARD",
+   "slug": "super-etendard",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--super-etendard.png",
+   "px": [
+    149,
+    214
+   ],
+   "aspect": 0.7,
+   "source_page": 4
+  },
+  {
+   "class": "ETENDARD",
+   "slug": "etendard",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--etendard.png",
+   "px": [
+    147,
+    199
+   ],
+   "aspect": 0.74,
+   "source_page": 4
+  },
+  {
+   "class": "F117",
+   "slug": "f117",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--f117.png",
+   "px": [
+    135,
+    190
+   ],
+   "aspect": 0.71,
+   "source_page": 4
+  },
+  {
+   "class": "DRAKEN",
+   "slug": "draken",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--draken.png",
+   "px": [
+    147,
+    214
+   ],
+   "aspect": 0.69,
+   "source_page": 4
+  },
+  {
+   "class": "MIRAGE 2000",
+   "slug": "mirage-2000",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--mirage-2000.png",
+   "px": [
+    122,
+    205
+   ],
+   "aspect": 0.6,
+   "source_page": 4
+  },
+  {
+   "class": "JAGUAR",
+   "slug": "jaguar",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--jaguar.png",
+   "px": [
+    133,
+    225
+   ],
+   "aspect": 0.59,
+   "source_page": 4
+  },
+  {
+   "class": "TUCANO",
+   "slug": "tucano",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--tucano.png",
+   "px": [
+    167,
+    137
+   ],
+   "aspect": 1.22,
+   "source_page": 4
+  },
+  {
+   "class": "A4 SKYHAWK",
+   "slug": "a4-skyhawk",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--a4-skyhawk.png",
+   "px": [
+    115,
+    170
+   ],
+   "aspect": 0.68,
+   "source_page": 4
+  },
+  {
+   "class": "ALPHAJET",
+   "slug": "alphajet",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--alphajet.png",
+   "px": [
+    132,
+    173
+   ],
+   "aspect": 0.76,
+   "source_page": 4
+  },
+  {
+   "class": "HAWK",
+   "slug": "hawk",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--hawk.png",
+   "px": [
+    143,
+    163
+   ],
+   "aspect": 0.88,
+   "source_page": 4
+  },
+  {
+   "class": "P3 ORION",
+   "slug": "p3-orion",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--p3-orion.png",
+   "px": [
+    453,
+    515
+   ],
+   "aspect": 0.88,
+   "source_page": 4
+  },
+  {
+   "class": "F11 AARDVARK",
+   "slug": "f11-aardvark",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--f11-aardvark.png",
+   "px": [
+    320,
+    326
+   ],
+   "aspect": 0.98,
+   "source_page": 4
+  },
+  {
+   "class": "EF111 RAVEN",
+   "slug": "ef111-raven",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--ef111-raven.png",
+   "px": [
+    326,
+    331
+   ],
+   "aspect": 0.98,
+   "source_page": 4
+  },
+  {
+   "class": "C160 TRANSALL",
+   "slug": "c160-transall",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--c160-transall.png",
+   "px": [
+    579,
+    462
+   ],
+   "aspect": 1.25,
+   "source_page": 4
+  },
+  {
+   "class": "G222",
+   "slug": "g222",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--g222.png",
+   "px": [
+    395,
+    319
+   ],
+   "aspect": 1.24,
+   "source_page": 4
+  },
+  {
+   "class": "F104 STARFIGHTER",
+   "slug": "f104-starfighter",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--f104-starfighter.png",
+   "px": [
+    100,
+    211
+   ],
+   "aspect": 0.47,
+   "source_page": 4
+  },
+  {
+   "class": "TORNADO",
+   "slug": "tornado",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--tornado.png",
+   "px": [
+    208,
+    225
+   ],
+   "aspect": 0.92,
+   "source_page": 4
+  },
+  {
+   "class": "F14 TOMCAT",
+   "slug": "f14-tomcat",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--f14-tomcat.png",
+   "px": [
+    269,
+    273
+   ],
+   "aspect": 0.99,
+   "source_page": 4
+  },
+  {
+   "class": "MIRAGE F1",
+   "slug": "mirage-f1",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--mirage-f1.png",
+   "px": [
+    140,
+    217
+   ],
+   "aspect": 0.65,
+   "source_page": 4
+  },
+  {
+   "class": "F15 EAGLE",
+   "slug": "f15-eagle",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--f15-eagle.png",
+   "px": [
+    178,
+    255
+   ],
+   "aspect": 0.7,
+   "source_page": 4
+  },
+  {
+   "class": "A10 THUNDERBOLT",
+   "slug": "a10-thunderbolt",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--a10-thunderbolt.png",
+   "px": [
+    261,
+    233
+   ],
+   "aspect": 1.12,
+   "source_page": 4
+  },
+  {
+   "class": "F18 HORNET",
+   "slug": "f18-hornet",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--f18-hornet.png",
+   "px": [
+    186,
+    247
+   ],
+   "aspect": 0.75,
+   "source_page": 4
+  },
+  {
+   "class": "A7 CORSAIR",
+   "slug": "a7-corsair",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--a7-corsair.png",
+   "px": [
+    176,
+    194
+   ],
+   "aspect": 0.91,
+   "source_page": 4
+  },
+  {
+   "class": "U2 / TR1",
+   "slug": "u2-tr1",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--u2-tr1.png",
+   "px": [
+    344,
+    199
+   ],
+   "aspect": 1.73,
+   "source_page": 4
+  },
+  {
+   "class": "EA6B PROWLER",
+   "slug": "ea6b-prowler",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--ea6b-prowler.png",
+   "px": [
+    241,
+    238
+   ],
+   "aspect": 1.01,
+   "source_page": 4
+  },
+  {
+   "class": "ATLANTIC",
+   "slug": "atlantic",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--atlantic.png",
+   "px": [
+    512,
+    443
+   ],
+   "aspect": 1.16,
+   "source_page": 4
+  },
+  {
+   "class": "C130 HERCULES",
+   "slug": "c130-hercules",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--c130-hercules.png",
+   "px": [
+    539,
+    451
+   ],
+   "aspect": 1.2,
+   "source_page": 4
+  },
+  {
+   "class": "KC135",
+   "slug": "kc135",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--kc135.png",
+   "px": [
+    587,
+    603
+   ],
+   "aspect": 0.97,
+   "source_page": 4
+  },
+  {
+   "class": "F27 FRIENDSHIP",
+   "slug": "f27-friendship",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--f27-friendship.png",
+   "px": [
+    415,
+    369
+   ],
+   "aspect": 1.12,
+   "source_page": 4
+  },
+  {
+   "class": "NIMROD",
+   "slug": "nimrod",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--nimrod.png",
+   "px": [
+    498,
+    551
+   ],
+   "aspect": 0.9,
+   "source_page": 4
+  },
+  {
+   "class": "A6 INTRUDER",
+   "slug": "a6-intruder",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--a6-intruder.png",
+   "px": [
+    256,
+    252
+   ],
+   "aspect": 1.02,
+   "source_page": 4
+  },
+  {
+   "class": "B52 STRATOFORTRESS",
+   "slug": "b52-stratofortress",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--b52-stratofortress.png",
+   "px": [
+    829,
+    723
+   ],
+   "aspect": 1.15,
+   "source_page": 4
+  },
+  {
+   "class": "VC10",
+   "slug": "vc10",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--vc10.png",
+   "px": [
+    697,
+    744
+   ],
+   "aspect": 0.94,
+   "source_page": 4
+  },
+  {
+   "class": "E3A SENTRY",
+   "slug": "e3a-sentry",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--e3a-sentry.png",
+   "px": [
+    613,
+    663
+   ],
+   "aspect": 0.92,
+   "source_page": 4
+  },
+  {
+   "class": "B1",
+   "slug": "b1",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--b1.png",
+   "px": [
+    350,
+    632
+   ],
+   "aspect": 0.55,
+   "source_page": 4
+  },
+  {
+   "class": "B2 STEALTH BOMBER",
+   "slug": "b2-stealth-bomber",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--b2-stealth-bomber.png",
+   "px": [
+    856,
+    333
+   ],
+   "aspect": 2.57,
+   "source_page": 4
+  },
+  {
+   "class": "E2 HAWKEYE",
+   "slug": "e2-hawkeye",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--e2-hawkeye.png",
+   "px": [
+    362,
+    259
+   ],
+   "aspect": 1.4,
+   "source_page": 4
+  },
+  {
+   "class": "CANBERRA",
+   "slug": "canberra",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--canberra.png",
+   "px": [
+    297,
+    289
+   ],
+   "aspect": 1.03,
+   "source_page": 4
+  },
+  {
+   "class": "BOEING 747",
+   "slug": "boeing-747",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--boeing-747.png",
+   "px": [
+    854,
+    1025
+   ],
+   "aspect": 0.83,
+   "source_page": 4
+  },
+  {
+   "class": "C5 GALAXY",
+   "slug": "c5-galaxy",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--c5-galaxy.png",
+   "px": [
+    964,
+    1095
+   ],
+   "aspect": 0.88,
+   "source_page": 4
+  },
+  {
+   "class": "BOEING 707",
+   "slug": "boeing-707",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--boeing-707.png",
+   "px": [
+    636,
+    692
+   ],
+   "aspect": 0.92,
+   "source_page": 4
+  },
+  {
+   "class": "C141B STARLIFTER",
+   "slug": "c141b-starlifter",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--c141b-starlifter.png",
+   "px": [
+    704,
+    742
+   ],
+   "aspect": 0.95,
+   "source_page": 4
+  },
+  {
+   "class": "TRISTAR",
+   "slug": "tristar",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--tristar.png",
+   "px": [
+    772,
+    776
+   ],
+   "aspect": 0.99,
+   "source_page": 4
+  },
+  {
+   "class": "KC10",
+   "slug": "kc10",
+   "group": "Fixed Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/fixed-wing--kc10.png",
+   "px": [
+    706,
+    790
+   ],
+   "aspect": 0.89,
+   "source_page": 4
+  },
+  {
+   "class": "MIG25 FOXBAT",
+   "slug": "mig25-foxbat",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--mig25-foxbat.png",
+   "px": [
+    191,
+    299
+   ],
+   "aspect": 0.64,
+   "source_page": 5
+  },
+  {
+   "class": "MIG31 FOXHOUND",
+   "slug": "mig31-foxhound",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--mig31-foxhound.png",
+   "px": [
+    187,
+    305
+   ],
+   "aspect": 0.61,
+   "source_page": 5
+  },
+  {
+   "class": "SU27 FLANKER",
+   "slug": "su27-flanker",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--su27-flanker.png",
+   "px": [
+    226,
+    343
+   ],
+   "aspect": 0.66,
+   "source_page": 5
+  },
+  {
+   "class": "SU24 FENCER",
+   "slug": "su24-fencer",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--su24-fencer.png",
+   "px": [
+    251,
+    330
+   ],
+   "aspect": 0.76,
+   "source_page": 5
+  },
+  {
+   "class": "SU15 FLAGON",
+   "slug": "su15-flagon",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--su15-flagon.png",
+   "px": [
+    139,
+    291
+   ],
+   "aspect": 0.48,
+   "source_page": 5
+  },
+  {
+   "class": "MIG17 FRESCO",
+   "slug": "mig17-fresco",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--mig17-fresco.png",
+   "px": [
+    157,
+    180
+   ],
+   "aspect": 0.87,
+   "source_page": 5
+  },
+  {
+   "class": "MIG19 FARMER",
+   "slug": "mig19-farmer",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--mig19-farmer.png",
+   "px": [
+    120,
+    159
+   ],
+   "aspect": 0.75,
+   "source_page": 5
+  },
+  {
+   "class": "SU7 FITTER",
+   "slug": "su7-fitter",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--su7-fitter.png",
+   "px": [
+    142,
+    240
+   ],
+   "aspect": 0.59,
+   "source_page": 5
+  },
+  {
+   "class": "YAK38 FORGER",
+   "slug": "yak38-forger",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--yak38-forger.png",
+   "px": [
+    112,
+    215
+   ],
+   "aspect": 0.52,
+   "source_page": 5
+  },
+  {
+   "class": "MIG29 FULCRUM",
+   "slug": "mig29-fulcrum",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--mig29-fulcrum.png",
+   "px": [
+    169,
+    237
+   ],
+   "aspect": 0.71,
+   "source_page": 5
+  },
+  {
+   "class": "YAK28 BREWER",
+   "slug": "yak28-brewer",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--yak28-brewer.png",
+   "px": [
+    173,
+    202
+   ],
+   "aspect": 0.86,
+   "source_page": 5
+  },
+  {
+   "class": "SU25 FROGFOOT",
+   "slug": "su25-frogfoot",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--su25-frogfoot.png",
+   "px": [
+    224,
+    224
+   ],
+   "aspect": 1.0,
+   "source_page": 5
+  },
+  {
+   "class": "MIG27 FLOGGER",
+   "slug": "mig27-flogger",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--mig27-flogger.png",
+   "px": [
+    198,
+    222
+   ],
+   "aspect": 0.89,
+   "source_page": 5
+  },
+  {
+   "class": "MIG21 FISHBED",
+   "slug": "mig21-fishbed",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--mig21-fishbed.png",
+   "px": [
+    91,
+    185
+   ],
+   "aspect": 0.49,
+   "source_page": 5
+  },
+  {
+   "class": "TU95 / TU142 BEAR",
+   "slug": "tu95-tu142-bear",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--tu95-tu142-bear.png",
+   "px": [
+    670,
+    659
+   ],
+   "aspect": 1.02,
+   "source_page": 5
+  },
+  {
+   "class": "AN22 COCK",
+   "slug": "an22-cock",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--an22-cock.png",
+   "px": [
+    929,
+    808
+   ],
+   "aspect": 1.15,
+   "source_page": 5
+  },
+  {
+   "class": "TU16 BADGER",
+   "slug": "tu16-badger",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--tu16-badger.png",
+   "px": [
+    461,
+    484
+   ],
+   "aspect": 0.95,
+   "source_page": 5
+  },
+  {
+   "class": "AN12 CUB",
+   "slug": "an12-cub",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--an12-cub.png",
+   "px": [
+    538,
+    530
+   ],
+   "aspect": 1.02,
+   "source_page": 5
+  },
+  {
+   "class": "IL38 MAY",
+   "slug": "il38-may",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--il38-may.png",
+   "px": [
+    526,
+    568
+   ],
+   "aspect": 0.93,
+   "source_page": 5
+  },
+  {
+   "class": "IL20 COOT",
+   "slug": "il20-coot",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--il20-coot.png",
+   "px": [
+    523,
+    516
+   ],
+   "aspect": 1.01,
+   "source_page": 5
+  },
+  {
+   "class": "TU160 BLACKJACK",
+   "slug": "tu160-blackjack",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--tu160-blackjack.png",
+   "px": [
+    628,
+    767
+   ],
+   "aspect": 0.82,
+   "source_page": 5
+  },
+  {
+   "class": "IL76 MAINSTAY",
+   "slug": "il76-mainstay",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--il76-mainstay.png",
+   "px": [
+    729,
+    661
+   ],
+   "aspect": 1.1,
+   "source_page": 5
+  },
+  {
+   "class": "IL76 CANDID",
+   "slug": "il76-candid",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--il76-candid.png",
+   "px": [
+    736,
+    670
+   ],
+   "aspect": 1.1,
+   "source_page": 5
+  },
+  {
+   "class": "IL86 CAMBER",
+   "slug": "il86-camber",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--il86-camber.png",
+   "px": [
+    679,
+    815
+   ],
+   "aspect": 0.83,
+   "source_page": 5
+  },
+  {
+   "class": "TU134 CRUSTY",
+   "slug": "tu134-crusty",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--tu134-crusty.png",
+   "px": [
+    388,
+    504
+   ],
+   "aspect": 0.77,
+   "source_page": 5
+  },
+  {
+   "class": "TU22 BLINDER",
+   "slug": "tu22-blinder",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--tu22-blinder.png",
+   "px": [
+    381,
+    597
+   ],
+   "aspect": 0.64,
+   "source_page": 5
+  },
+  {
+   "class": "TU26 BACKFIRE",
+   "slug": "tu26-backfire",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--tu26-backfire.png",
+   "px": [
+    472,
+    574
+   ],
+   "aspect": 0.82,
+   "source_page": 5
+  },
+  {
+   "class": "YAK40 CODLING",
+   "slug": "yak40-codling",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--yak40-codling.png",
+   "px": [
+    388,
+    299
+   ],
+   "aspect": 1.3,
+   "source_page": 5
+  },
+  {
+   "class": "AN26 / AN24 CURL / COKE",
+   "slug": "an26-an24-curl-coke",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--an26-an24-curl-coke.png",
+   "px": [
+    388,
+    346
+   ],
+   "aspect": 1.12,
+   "source_page": 5
+  },
+  {
+   "class": "AN32 CLINE",
+   "slug": "an32-cline",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--an32-cline.png",
+   "px": [
+    412,
+    338
+   ],
+   "aspect": 1.22,
+   "source_page": 5
+  },
+  {
+   "class": "AN30 CLANK",
+   "slug": "an30-clank",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--an30-clank.png",
+   "px": [
+    362,
+    314
+   ],
+   "aspect": 1.15,
+   "source_page": 5
+  },
+  {
+   "class": "AN225 COSSACK",
+   "slug": "an225-cossack",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--an225-cossack.png",
+   "px": [
+    1247,
+    1186
+   ],
+   "aspect": 1.05,
+   "source_page": 5
+  },
+  {
+   "class": "AN2 COLT",
+   "slug": "an2-colt",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--an2-colt.png",
+   "px": [
+    225,
+    150
+   ],
+   "aspect": 1.5,
+   "source_page": 5
+  },
+  {
+   "class": "AN124 CONDOR",
+   "slug": "an124-condor",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--an124-condor.png",
+   "px": [
+    1080,
+    1003
+   ],
+   "aspect": 1.08,
+   "source_page": 5
+  },
+  {
+   "class": "IL62 CLASSIC",
+   "slug": "il62-classic",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--il62-classic.png",
+   "px": [
+    572,
+    746
+   ],
+   "aspect": 0.77,
+   "source_page": 5
+  },
+  {
+   "class": "IL96 300",
+   "slug": "il96-300",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--il96-300.png",
+   "px": [
+    817,
+    767
+   ],
+   "aspect": 1.07,
+   "source_page": 5
+  },
+  {
+   "class": "TU154 CARELESS",
+   "slug": "tu154-careless",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--tu154-careless.png",
+   "px": [
+    525,
+    662
+   ],
+   "aspect": 0.79,
+   "source_page": 5
+  },
+  {
+   "class": "YAK42 CLOBBER",
+   "slug": "yak42-clobber",
+   "group": "Fixed Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/fixed-wing--yak42-clobber.png",
+   "px": [
+    491,
+    517
+   ],
+   "aspect": 0.95,
+   "source_page": 5
+  },
+  {
+   "class": "MI14 HAZE",
+   "slug": "mi14-haze",
+   "group": "Rotary Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/rotary-wing--mi14-haze.png",
+   "px": [
+    495,
+    649
+   ],
+   "aspect": 0.76,
+   "source_page": 6
+  },
+  {
+   "class": "MI8 HIP",
+   "slug": "mi8-hip",
+   "group": "Rotary Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/rotary-wing--mi8-hip.png",
+   "px": [
+    461,
+    652
+   ],
+   "aspect": 0.71,
+   "source_page": 6
+  },
+  {
+   "class": "MI10 HARKE",
+   "slug": "mi10-harke",
+   "group": "Rotary Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/rotary-wing--mi10-harke.png",
+   "px": [
+    859,
+    1104
+   ],
+   "aspect": 0.78,
+   "source_page": 6
+  },
+  {
+   "class": "MI26 HALO",
+   "slug": "mi26-halo",
+   "group": "Rotary Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/rotary-wing--mi26-halo.png",
+   "px": [
+    846,
+    1067
+   ],
+   "aspect": 0.79,
+   "source_page": 6
+  },
+  {
+   "class": "MI24 HIND",
+   "slug": "mi24-hind",
+   "group": "Rotary Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/rotary-wing--mi24-hind.png",
+   "px": [
+    384,
+    512
+   ],
+   "aspect": 0.75,
+   "source_page": 6
+  },
+  {
+   "class": "MI6 HOOK",
+   "slug": "mi6-hook",
+   "group": "Rotary Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/rotary-wing--mi6-hook.png",
+   "px": [
+    819,
+    980
+   ],
+   "aspect": 0.84,
+   "source_page": 6
+  },
+  {
+   "class": "KA26 HOODLUM",
+   "slug": "ka26-hoodlum",
+   "group": "Rotary Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/rotary-wing--ka26-hoodlum.png",
+   "px": [
+    303,
+    306
+   ],
+   "aspect": 0.99,
+   "source_page": 6
+  },
+  {
+   "class": "KA50 HOKUM",
+   "slug": "ka50-hokum",
+   "group": "Rotary Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/rotary-wing--ka50-hokum.png",
+   "px": [
+    481,
+    510
+   ],
+   "aspect": 0.94,
+   "source_page": 6
+  },
+  {
+   "class": "MI28 HAVOC",
+   "slug": "mi28-havoc",
+   "group": "Rotary Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/rotary-wing--mi28-havoc.png",
+   "px": [
+    480,
+    572
+   ],
+   "aspect": 0.84,
+   "source_page": 6
+  },
+  {
+   "class": "MI2 HOPLIGHT",
+   "slug": "mi2-hoplight",
+   "group": "Rotary Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/rotary-wing--mi2-hoplight.png",
+   "px": [
+    470,
+    564
+   ],
+   "aspect": 0.83,
+   "source_page": 6
+  },
+  {
+   "class": "MI4 HOUND",
+   "slug": "mi4-hound",
+   "group": "Rotary Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/rotary-wing--mi4-hound.png",
+   "px": [
+    374,
+    536
+   ],
+   "aspect": 0.7,
+   "source_page": 6
+  },
+  {
+   "class": "KA27 HELIX",
+   "slug": "ka27-helix",
+   "group": "Rotary Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/rotary-wing--ka27-helix.png",
+   "px": [
+    329,
+    370
+   ],
+   "aspect": 0.89,
+   "source_page": 6
+  },
+  {
+   "class": "KA25 HORMONE",
+   "slug": "ka25-hormone",
+   "group": "Rotary Wing",
+   "origin": "CIS",
+   "file": "cat01-airfields/rotary-wing--ka25-hormone.png",
+   "px": [
+    443,
+    383
+   ],
+   "aspect": 1.16,
+   "source_page": 6
+  },
+  {
+   "class": "GAZELLE",
+   "slug": "gazelle",
+   "group": "Rotary Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/rotary-wing--gazelle.png",
+   "px": [
+    254,
+    339
+   ],
+   "aspect": 0.75,
+   "source_page": 6
+  },
+  {
+   "class": "ECUREUIL",
+   "slug": "ecureuil",
+   "group": "Rotary Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/rotary-wing--ecureuil.png",
+   "px": [
+    271,
+    361
+   ],
+   "aspect": 0.75,
+   "source_page": 6
+  },
+  {
+   "class": "MBB BO105",
+   "slug": "mbb-bo105",
+   "group": "Rotary Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/rotary-wing--mbb-bo105.png",
+   "px": [
+    289,
+    331
+   ],
+   "aspect": 0.87,
+   "source_page": 6
+  },
+  {
+   "class": "LYNX",
+   "slug": "lynx",
+   "group": "Rotary Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/rotary-wing--lynx.png",
+   "px": [
+    197,
+    339
+   ],
+   "aspect": 0.58,
+   "source_page": 6
+  },
+  {
+   "class": "OH58 KIOWA",
+   "slug": "oh58-kiowa",
+   "group": "Rotary Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/rotary-wing--oh58-kiowa.png",
+   "px": [
+    180,
+    304
+   ],
+   "aspect": 0.59,
+   "source_page": 6
+  },
+  {
+   "class": "H46 SEA KNIGHT",
+   "slug": "h46-sea-knight",
+   "group": "Rotary Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/rotary-wing--h46-sea-knight.png",
+   "px": [
+    588,
+    870
+   ],
+   "aspect": 0.68,
+   "source_page": 6
+  },
+  {
+   "class": "ALOUETTE III",
+   "slug": "alouette-iii",
+   "group": "Rotary Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/rotary-wing--alouette-iii.png",
+   "px": [
+    279,
+    307
+   ],
+   "aspect": 0.91,
+   "source_page": 6
+  },
+  {
+   "class": "EH101",
+   "slug": "eh101",
+   "group": "Rotary Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/rotary-wing--eh101.png",
+   "px": [
+    377,
+    805
+   ],
+   "aspect": 0.47,
+   "source_page": 6
+  },
+  {
+   "class": "CH53 SEA STALLION",
+   "slug": "ch53-sea-stallion",
+   "group": "Rotary Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/rotary-wing--ch53-sea-stallion.png",
+   "px": [
+    379,
+    692
+   ],
+   "aspect": 0.55,
+   "source_page": 6
+  },
+  {
+   "class": "UH60A BLACKHAWK",
+   "slug": "uh60a-blackhawk",
+   "group": "Rotary Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/rotary-wing--uh60a-blackhawk.png",
+   "px": [
+    353,
+    619
+   ],
+   "aspect": 0.57,
+   "source_page": 6
+  },
+  {
+   "class": "UH1 IROQUOIS",
+   "slug": "uh1-iroquois",
+   "group": "Rotary Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/rotary-wing--uh1-iroquois.png",
+   "px": [
+    132,
+    442
+   ],
+   "aspect": 0.3,
+   "source_page": 6
+  },
+  {
+   "class": "BELL 212/412",
+   "slug": "bell-212-412",
+   "group": "Rotary Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/rotary-wing--bell-212-412.png",
+   "px": [
+    138,
+    474
+   ],
+   "aspect": 0.29,
+   "source_page": 6
+  },
+  {
+   "class": "IROQUOIS MOD.205",
+   "slug": "iroquois-mod-205",
+   "group": "Rotary Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/rotary-wing--iroquois-mod-205.png",
+   "px": [
+    85,
+    548
+   ],
+   "aspect": 0.16,
+   "source_page": 6
+  },
+  {
+   "class": "AH64A APACHE",
+   "slug": "ah64a-apache",
+   "group": "Rotary Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/rotary-wing--ah64a-apache.png",
+   "px": [
+    295,
+    441
+   ],
+   "aspect": 0.67,
+   "source_page": 6
+  },
+  {
+   "class": "WESTLAND WESSEX",
+   "slug": "westland-wessex",
+   "group": "Rotary Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/rotary-wing--westland-wessex.png",
+   "px": [
+    317,
+    453
+   ],
+   "aspect": 0.7,
+   "source_page": 6
+  },
+  {
+   "class": "AH1 HUEY COBRA",
+   "slug": "ah1-huey-cobra",
+   "group": "Rotary Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/rotary-wing--ah1-huey-cobra.png",
+   "px": [
+    110,
+    394
+   ],
+   "aspect": 0.28,
+   "source_page": 6
+  },
+  {
+   "class": "MD500",
+   "slug": "md500",
+   "group": "Rotary Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/rotary-wing--md500.png",
+   "px": [
+    195,
+    280
+   ],
+   "aspect": 0.7,
+   "source_page": 6
+  },
+  {
+   "class": "SCOUT",
+   "slug": "scout",
+   "group": "Rotary Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/rotary-wing--scout.png",
+   "px": [
+    212,
+    296
+   ],
+   "aspect": 0.72,
+   "source_page": 6
+  },
+  {
+   "class": "SUPER FRELON",
+   "slug": "super-frelon",
+   "group": "Rotary Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/rotary-wing--super-frelon.png",
+   "px": [
+    553,
+    691
+   ],
+   "aspect": 0.8,
+   "source_page": 6
+  },
+  {
+   "class": "CH53E SUPER STALLION",
+   "slug": "ch53e-super-stallion",
+   "group": "Rotary Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/rotary-wing--ch53e-super-stallion.png",
+   "px": [
+    464,
+    779
+   ],
+   "aspect": 0.6,
+   "source_page": 6
+  },
+  {
+   "class": "CH47 CHINOOK",
+   "slug": "ch47-chinook",
+   "group": "Rotary Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/rotary-wing--ch47-chinook.png",
+   "px": [
+    126,
+    621
+   ],
+   "aspect": 0.2,
+   "source_page": 6
+  },
+  {
+   "class": "PUMA",
+   "slug": "puma",
+   "group": "Rotary Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/rotary-wing--puma.png",
+   "px": [
+    322,
+    436
+   ],
+   "aspect": 0.74,
+   "source_page": 6
+  },
+  {
+   "class": "SUPER PUMA",
+   "slug": "super-puma",
+   "group": "Rotary Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/rotary-wing--super-puma.png",
+   "px": [
+    317,
+    435
+   ],
+   "aspect": 0.73,
+   "source_page": 6
+  },
+  {
+   "class": "SEA KING / COMMANDO",
+   "slug": "sea-king-commando",
+   "group": "Rotary Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/rotary-wing--sea-king-commando.png",
+   "px": [
+    466,
+    547
+   ],
+   "aspect": 0.85,
+   "source_page": 6
+  },
+  {
+   "class": "SH60D SEAHAWK",
+   "slug": "sh60d-seahawk",
+   "group": "Rotary Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/rotary-wing--sh60d-seahawk.png",
+   "px": [
+    481,
+    610
+   ],
+   "aspect": 0.79,
+   "source_page": 6
+  },
+  {
+   "class": "A129 MANGUSTA",
+   "slug": "a129-mangusta",
+   "group": "Rotary Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/rotary-wing--a129-mangusta.png",
+   "px": [
+    279,
+    341
+   ],
+   "aspect": 0.82,
+   "source_page": 6
+  },
+  {
+   "class": "DAUPHIN 2",
+   "slug": "dauphin-2",
+   "group": "Rotary Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/rotary-wing--dauphin-2.png",
+   "px": [
+    271,
+    393
+   ],
+   "aspect": 0.69,
+   "source_page": 6
+  },
+  {
+   "class": "A109 AGUSTA",
+   "slug": "a109-agusta",
+   "group": "Rotary Wing",
+   "origin": "NATO",
+   "file": "cat01-airfields/rotary-wing--a109-agusta.png",
+   "px": [
+    276,
+    412
+   ],
+   "aspect": 0.67,
+   "source_page": 6
+  }
+ ]
+}

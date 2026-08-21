@@ -5,8 +5,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Plane, Satellite, Sun, AlertTriangle, Camera,
   CloudLightning, Ship, Network, Database, Ghost,
-  Flame, Tv, Radio, Mountain, Anchor, Megaphone
+  Flame, Tv, Radio, Mountain, Anchor, Megaphone, ScanEye, Crosshair
 } from 'lucide-react';
+import { IMAGERY_SCENES, sceneCenter } from '@/lib/imageryScenes';
 
 interface LayerPanelProps {
   data: any;
@@ -18,6 +19,11 @@ interface LayerPanelProps {
   /** Server-side capabilities, e.g. { cloudflare: true }. Layers declaring a
    *  `requires` key stay hidden until the matching capability is present. */
   capabilities?: Record<string, boolean>;
+  /** Flies the camera to a layer's footprint. Wired for imagery scenes. */
+  onFocus?: (target: { lng: number; lat: number; zoom: number }) => void;
+  /** Per-layer opacity, 0..1. A missing key means fully opaque. */
+  layerOpacity?: Record<string, number>;
+  setLayerOpacity?: React.Dispatch<React.SetStateAction<Record<string, number>>>;
 }
 
 interface LayerDef {
@@ -28,6 +34,14 @@ interface LayerDef {
   catKey?: string;
   /** Capability that must be configured server-side for this layer to appear. */
   requires?: string;
+  /** Secondary line under the label — used for a scene's site name. */
+  sub?: string;
+  /** Camera target. Renders a focus button; the layer covers too little ground
+   *  to find by panning, so without this it is effectively unreachable. */
+  focus?: { lng: number; lat: number; zoom: number };
+  /** Show an opacity slider while the layer is on. Lets two captures of the
+   *  same AOI be cross-faded instead of only flipped. */
+  opacity?: boolean;
 }
 
 interface LayerGroupDef {
@@ -38,6 +52,21 @@ interface LayerGroupDef {
 }
 
 const LAYER_GROUPS: LayerGroupDef[] = [
+  {
+    label: 'IMAGERY',
+    fullLabel: 'SATELLITE IMAGERY',
+    icon: ScanEye,
+    /* Built from the scene registry — adding a tasked capture in
+       src/lib/imageryScenes.ts surfaces it here automatically. */
+    layers: IMAGERY_SCENES.map(s => ({
+      key: s.id,
+      label: s.label,
+      dataKey: '',
+      sub: s.site,
+      focus: { ...sceneCenter(s), zoom: 13 },
+      opacity: true,
+    })),
+  },
   {
     label: 'SDK',
     fullLabel: 'OSIRIS SDK',
@@ -167,10 +196,52 @@ function ToggleSwitch({ active, onClick }: { active: boolean; onClick: () => voi
   );
 }
 
-function LayerPanel({ data, activeLayers, setActiveLayers, isMobile, theme = 'core', setTheme, capabilities = {} }: LayerPanelProps) {
+/* ── Opacity slider ──
+   Sits under a layer row while that layer is on. stopPropagation matters: on
+   desktop the whole row is a toggle target, so without it dragging the slider
+   would switch the layer off. */
+function OpacitySlider({ value, onChange }: { value: number; onChange: (v: number) => void }) {
+  return (
+    <div
+      className="flex items-center gap-2 pl-[40px] pr-1 pb-1.5 -mt-0.5"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <input
+        type="range"
+        min={0}
+        max={100}
+        value={Math.round(value * 100)}
+        onChange={(e) => onChange(Number(e.target.value) / 100)}
+        onClick={(e) => e.stopPropagation()}
+        className="flex-1 h-1 cursor-pointer accent-[#F26722]"
+        style={{ accentColor: '#F26722' }}
+        title="Layer opacity"
+      />
+      <span className="text-[10px] font-mono tabular-nums text-white/30 w-8 text-right">
+        {Math.round(value * 100)}%
+      </span>
+    </div>
+  );
+}
+
+function LayerPanel({ data, activeLayers, setActiveLayers, isMobile, theme = 'core', setTheme, capabilities = {}, onFocus, layerOpacity = {}, setLayerOpacity }: LayerPanelProps) {
   const [hoveredGroup, setHoveredGroup] = useState<string | null>(null);
 
   const toggle = (key: string) => setActiveLayers((prev: any) => ({ ...prev, [key]: !prev[key] }));
+
+  /* Switching a scene on is only useful if you end up looking at it — its
+     footprint is a couple of kilometres wide, so from a global view the layer
+     would otherwise appear to do nothing. Enabling flies there; disabling
+     leaves the camera alone. */
+  const toggleLayer = (layer: LayerDef) => {
+    const turningOn = !activeLayers[layer.key];
+    toggle(layer.key);
+    if (turningOn && layer.focus && onFocus) onFocus(layer.focus);
+  };
+
+  const opacityOf = (key: string) => layerOpacity[key] ?? 1;
+  const setOpacity = (key: string, v: number) =>
+    setLayerOpacity?.((prev) => ({ ...prev, [key]: v }));
 
   /* Drop layers whose backing capability is not configured, then drop any group
      left with nothing to show. */
@@ -209,19 +280,38 @@ function LayerPanel({ data, activeLayers, setActiveLayers, isMobile, theme = 'co
                 const isLayerActive = activeLayers[layer.key];
                 const count = getCount(layer.dataKey, layer.catKey);
                 return (
-                  <div key={layer.key} className="flex items-center gap-3 px-1 py-1.5">
+                  <div key={layer.key}>
+                  <div className="flex items-center gap-3 px-1 py-1.5">
                     <ToggleSwitch
                       active={!!isLayerActive}
-                      onClick={() => toggle(layer.key)}
+                      onClick={() => toggleLayer(layer)}
                     />
-                    <span className={`text-[12px] font-mono uppercase tracking-wider flex-1 transition-colors ${isLayerActive ? 'text-white/80' : 'text-white/40'}`}>
-                      {layer.label}
+                    <span className="flex-1 min-w-0">
+                      <span className={`block text-[12px] font-mono uppercase tracking-wider transition-colors ${isLayerActive ? 'text-white/80' : 'text-white/40'}`}>
+                        {layer.label}
+                      </span>
+                      {layer.sub && (
+                        <span className="block text-[10px] font-mono tracking-wide text-white/25 truncate">{layer.sub}</span>
+                      )}
                     </span>
+                    {layer.focus && onFocus && (
+                      <button
+                        onClick={() => onFocus(layer.focus!)}
+                        title="Fly to footprint"
+                        className="p-1 rounded text-white/30 hover:text-[#F26722] transition-colors"
+                      >
+                        <Crosshair className="w-3.5 h-3.5" />
+                      </button>
+                    )}
                     {count !== null && (
                       <span className="text-[10px] font-mono tabular-nums text-white/20">
                         {count.toLocaleString()}
                       </span>
                     )}
+                  </div>
+                  {layer.opacity && isLayerActive && setLayerOpacity && (
+                    <OpacitySlider value={opacityOf(layer.key)} onChange={(v) => setOpacity(layer.key, v)} />
+                  )}
                   </div>
                 );
               })}
@@ -323,20 +413,38 @@ function LayerPanel({ data, activeLayers, setActiveLayers, isMobile, theme = 'co
                         const count = getCount(layer.dataKey, layer.catKey);
 
                         return (
+                          <div key={layer.key}>
                           <div
-                            key={layer.key}
                             className="flex items-center gap-3 px-1 py-[5px] rounded-md hover:bg-white/[0.03] transition-colors cursor-pointer"
-                            onClick={() => toggle(layer.key)}
+                            onClick={() => toggleLayer(layer)}
                           >
                             <ToggleSwitch active={!!isLayerActive} onClick={() => {}} />
-                            <span className={`text-[12px] font-mono uppercase tracking-wider flex-1 transition-colors duration-200 ${isLayerActive ? 'text-white/70' : 'text-white/35'}`}>
-                              {layer.label}
+                            <span className="flex-1 min-w-0">
+                              <span className={`block text-[12px] font-mono uppercase tracking-wider transition-colors duration-200 ${isLayerActive ? 'text-white/70' : 'text-white/35'}`}>
+                                {layer.label}
+                              </span>
+                              {layer.sub && (
+                                <span className="block text-[10px] font-mono tracking-wide text-white/25 truncate">{layer.sub}</span>
+                              )}
                             </span>
+                            {layer.focus && onFocus && (
+                              <button
+                                onClick={(e) => { e.stopPropagation(); onFocus(layer.focus!); }}
+                                title="Fly to footprint"
+                                className="p-1 rounded text-white/30 hover:text-[#F26722] transition-colors"
+                              >
+                                <Crosshair className="w-3.5 h-3.5" />
+                              </button>
+                            )}
                             {count !== null && (
                               <span className="text-[11px] font-mono tabular-nums text-white/20">
                                 {count.toLocaleString()}
                               </span>
                             )}
+                          </div>
+                          {layer.opacity && isLayerActive && setLayerOpacity && (
+                            <OpacitySlider value={opacityOf(layer.key)} onChange={(v) => setOpacity(layer.key, v)} />
+                          )}
                           </div>
                         );
                       })}

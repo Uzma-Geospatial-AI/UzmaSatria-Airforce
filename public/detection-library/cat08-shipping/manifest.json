@@ -1,0 +1,230 @@
+{
+ "category_code": "08",
+ "category": "Shipping",
+ "source": "ImStrat Corporation \u2014 Target Category Reporting List for Imagery Intelligence Analysis (2006)",
+ "view": "profile",
+ "count": 17,
+ "classes": [
+  {
+   "class": "ICEBREAKER",
+   "slug": "icebreaker",
+   "group": "Vessel Type",
+   "origin": "Generic",
+   "file": "cat08-shipping/vessel-type--icebreaker.png",
+   "px": [
+    808,
+    191
+   ],
+   "aspect": 4.23,
+   "source_page": 16
+  },
+  {
+   "class": "HYDROFOIL",
+   "slug": "hydrofoil",
+   "group": "Vessel Type",
+   "origin": "Generic",
+   "file": "cat08-shipping/vessel-type--hydrofoil.png",
+   "px": [
+    449,
+    176
+   ],
+   "aspect": 2.55,
+   "source_page": 16
+  },
+  {
+   "class": "AMPHIB ASSAULT SHIP",
+   "slug": "amphib-assault-ship",
+   "group": "Vessel Type",
+   "origin": "Generic",
+   "file": "cat08-shipping/vessel-type--amphib-assault-ship.png",
+   "px": [
+    885,
+    212
+   ],
+   "aspect": 4.17,
+   "source_page": 16
+  },
+  {
+   "class": "ACCOMMODATION SHIP",
+   "slug": "accommodation-ship",
+   "group": "Vessel Type",
+   "origin": "Generic",
+   "file": "cat08-shipping/vessel-type--accommodation-ship.png",
+   "px": [
+    694,
+    79
+   ],
+   "aspect": 8.78,
+   "source_page": 16
+  },
+  {
+   "class": "INT GATHERING SHIP",
+   "slug": "int-gathering-ship",
+   "group": "Vessel Type",
+   "origin": "Generic",
+   "file": "cat08-shipping/vessel-type--int-gathering-ship.png",
+   "px": [
+    564,
+    196
+   ],
+   "aspect": 2.88,
+   "source_page": 16
+  },
+  {
+   "class": "SPACE EVENT SHIP",
+   "slug": "space-event-ship",
+   "group": "Vessel Type",
+   "origin": "Generic",
+   "file": "cat08-shipping/vessel-type--space-event-ship.png",
+   "px": [
+    1074,
+    276
+   ],
+   "aspect": 3.89,
+   "source_page": 16
+  },
+  {
+   "class": "LANDING SHIP, TANK",
+   "slug": "landing-ship-tank",
+   "group": "Vessel Type",
+   "origin": "Generic",
+   "file": "cat08-shipping/vessel-type--landing-ship-tank.png",
+   "px": [
+    563,
+    181
+   ],
+   "aspect": 3.11,
+   "source_page": 16
+  },
+  {
+   "class": "HOSPITAL SHIP",
+   "slug": "hospital-ship",
+   "group": "Vessel Type",
+   "origin": "Generic",
+   "file": "cat08-shipping/vessel-type--hospital-ship.png",
+   "px": [
+    730,
+    148
+   ],
+   "aspect": 4.93,
+   "source_page": 16
+  },
+  {
+   "class": "HELICOPTER SUPPORT SHIP",
+   "slug": "helicopter-support-ship",
+   "group": "Vessel Type",
+   "origin": "Generic",
+   "file": "cat08-shipping/vessel-type--helicopter-support-ship.png",
+   "px": [
+    817,
+    205
+   ],
+   "aspect": 3.99,
+   "source_page": 16
+  },
+  {
+   "class": "AMMUNITION SHIP",
+   "slug": "ammunition-ship",
+   "group": "Vessel Type",
+   "origin": "Generic",
+   "file": "cat08-shipping/vessel-type--ammunition-ship.png",
+   "px": [
+    957,
+    209
+   ],
+   "aspect": 4.58,
+   "source_page": 16
+  },
+  {
+   "class": "LANDING SHIP, MEDIUM",
+   "slug": "landing-ship-medium",
+   "group": "Vessel Type",
+   "origin": "Generic",
+   "file": "cat08-shipping/vessel-type--landing-ship-medium.png",
+   "px": [
+    730,
+    164
+   ],
+   "aspect": 4.45,
+   "source_page": 16
+  },
+  {
+   "class": "CABLE LAYER",
+   "slug": "cable-layer",
+   "group": "Vessel Type",
+   "origin": "Generic",
+   "file": "cat08-shipping/vessel-type--cable-layer.png",
+   "px": [
+    711,
+    172
+   ],
+   "aspect": 4.13,
+   "source_page": 16
+  },
+  {
+   "class": "AIR CUSHIONED VEHICLE",
+   "slug": "air-cushioned-vehicle",
+   "group": "Vessel Type",
+   "origin": "Generic",
+   "file": "cat08-shipping/vessel-type--air-cushioned-vehicle.png",
+   "px": [
+    558,
+    179
+   ],
+   "aspect": 3.12,
+   "source_page": 16
+  },
+  {
+   "class": "AMPHIB CARGO SHIP",
+   "slug": "amphib-cargo-ship",
+   "group": "Vessel Type",
+   "origin": "Generic",
+   "file": "cat08-shipping/vessel-type--amphib-cargo-ship.png",
+   "px": [
+    892,
+    216
+   ],
+   "aspect": 4.13,
+   "source_page": 16
+  },
+  {
+   "class": "DEPOT SHIP",
+   "slug": "depot-ship",
+   "group": "Vessel Type",
+   "origin": "Generic",
+   "file": "cat08-shipping/vessel-type--depot-ship.png",
+   "px": [
+    845,
+    189
+   ],
+   "aspect": 4.47,
+   "source_page": 16
+  },
+  {
+   "class": "AGI",
+   "slug": "agi",
+   "group": "Vessel Type",
+   "origin": "Generic",
+   "file": "cat08-shipping/vessel-type--agi.png",
+   "px": [
+    497,
+    136
+   ],
+   "aspect": 3.65,
+   "source_page": 16
+  },
+  {
+   "class": "FLEET OILER",
+   "slug": "fleet-oiler",
+   "group": "Vessel Type",
+   "origin": "Generic",
+   "file": "cat08-shipping/vessel-type--fleet-oiler.png",
+   "px": [
+    949,
+    190
+   ],
+   "aspect": 4.99,
+   "source_page": 16
+  }
+ ]
+}

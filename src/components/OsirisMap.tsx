@@ -3,6 +3,19 @@
 import { useEffect, useRef, useState, useCallback, memo } from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import { Protocol } from 'pmtiles';
+import { SCENES_BY_DATE, sceneFootprint } from '@/lib/imageryScenes';
+
+/* PMTiles serves a whole tile pyramid from one file over HTTP range requests.
+   MapLibre cannot read that natively, so the protocol handler must be
+   registered before any pmtiles:// source is added — and exactly once per
+   page, since addProtocol is global rather than per-map. */
+let pmtilesRegistered = false;
+function registerPmtiles() {
+  if (pmtilesRegistered) return;
+  maplibregl.addProtocol('pmtiles', new Protocol().tile);
+  pmtilesRegistered = true;
+}
 
 interface OsirisMapProps {
   data: any;
@@ -37,6 +50,8 @@ interface OsirisMapProps {
   userLocation?: { lat: number; lng: number; accuracy?: number; heading?: number | null } | null;
   /** Keep the camera centred on userLocation as it moves. */
   followUser?: boolean;
+  /** Per-layer opacity, 0..1, keyed by layer key. Missing means fully opaque. */
+  layerOpacity?: Record<string, number>;
   /** Fired when the operator pans/zooms/rotates while follow mode is on. */
   onFollowInterrupt?: () => void;
   /** Live navigation: tighter zoom and the map turned to face travel direction. */
@@ -67,7 +82,7 @@ function computeSolarTerminator(): [number, number][] {
 
 const EMPTY_FC = { type: 'FeatureCollection' as const, features: [] };
 
-function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightClick, onViewStateChange, flyToLocation, projection = 'globe', mapStyle = 'dark', sweepData, scanTargets = [], demoMode = false, theme = 'core', drawnPolygons = [], arcgisLayers = [], drawingMode = false, onDrawComplete, onMapCenter, route = null, userLocation = null, followUser = false, onFollowInterrupt, navigating = false, aircraftAirports = {} }: OsirisMapProps) {
+function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightClick, onViewStateChange, flyToLocation, projection = 'globe', mapStyle = 'dark', sweepData, scanTargets = [], demoMode = false, theme = 'core', drawnPolygons = [], arcgisLayers = [], drawingMode = false, onDrawComplete, onMapCenter, route = null, userLocation = null, followUser = false, onFollowInterrupt, navigating = false, aircraftAirports = {}, layerOpacity = {} }: OsirisMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
   const popupRef = useRef<maplibregl.Popup | null>(null);
@@ -76,6 +91,11 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
   const prevDrawnPolygonsRef = useRef<string[]>([]);
   const prevArcgisLayersRef = useRef<string[]>([]);
   const drawingCoordsRef = useRef<number[][]>([]);
+
+  /* activeLayers is a fresh object on every toggle, so depending on it directly
+     would re-run the imagery effect for unrelated layers. Collapse just the
+     scene toggles into a stable string instead. */
+  const imageryState = SCENES_BY_DATE.map(s => (activeLayers as Record<string, boolean>)[s.id] ? '1' : '0').join('');
 
   // Create aircraft icon on canvas (for WebGL symbol layer)
   const createIcon = useCallback((map: maplibregl.Map, id: string, color: string, size: number) => {
@@ -2415,6 +2435,102 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       }
     });
   }, [mapReady, arcgisLayers]);
+
+  // ── SATELLITE IMAGERY (tasked captures, PMTiles) ──
+  useEffect(() => {
+    if (!mapReady || !mapRef.current) return;
+    const map = mapRef.current;
+    registerPmtiles();
+
+    /* Imagery belongs above the basemap but below the data overlays, otherwise
+       a raster scene would bury the flights and CCTV markers drawn over it.
+       'day-night-fill' is the first overlay added at load and is what the
+       satellite basemap already anchors against. */
+    const anchor = map.getLayer('day-night-fill') ? 'day-night-fill' : undefined;
+
+    /* Oldest first, so a newer capture of the same AOI lands on top and
+       toggling it becomes a straight before/after flip. */
+    SCENES_BY_DATE.forEach(scene => {
+      const srcId = `imagery-${scene.id}`;
+      const fpSrcId = `${srcId}-footprint`;
+      const rasterId = `${srcId}-raster`;
+      const lineId = `${srcId}-outline`;
+      const labelId = `${srcId}-label`;
+      const on = !!(activeLayers as Record<string, boolean>)[scene.id];
+
+      if (on) {
+        if (!map.getSource(srcId)) {
+          /* The pmtiles:// URL form makes the protocol serve TileJSON straight
+             from the archive header, so zoom range and bounds come from the
+             file itself rather than being duplicated (and drifting) here. */
+          map.addSource(srcId, {
+            type: 'raster',
+            url: `pmtiles://${scene.url}`,
+            tileSize: 256,
+            attribution: `Tasked imagery ${scene.label} — ${scene.site}`,
+          });
+          map.addLayer({
+            id: rasterId,
+            type: 'raster',
+            source: srcId,
+            paint: { 'raster-opacity': layerOpacity[scene.id] ?? 1, 'raster-fade-duration': 250 },
+          }, anchor);
+        }
+
+        /* The AOI is ~2 x 11 km. Below the archive's min zoom there are no
+           tiles at all, so without a footprint the layer reads as broken when
+           you switch it on from a global view. The outline is always drawn. */
+        if (!map.getSource(fpSrcId)) {
+          map.addSource(fpSrcId, { type: 'geojson', data: sceneFootprint(scene) });
+          map.addLayer({
+            id: lineId,
+            type: 'line',
+            source: fpSrcId,
+            paint: {
+              'line-color': '#F26722',
+              'line-width': ['interpolate', ['linear'], ['zoom'], 3, 1, 10, 1.6, 16, 2.4],
+              'line-opacity': 0.9,
+            },
+          });
+          map.addLayer({
+            id: labelId,
+            type: 'symbol',
+            source: fpSrcId,
+            maxzoom: 13,
+            layout: {
+              'text-field': ['get', 'label'],
+              'text-size': 10,
+              'text-offset': [0, -1.2],
+              'text-anchor': 'bottom',
+              'text-allow-overlap': false,
+            },
+            paint: {
+              'text-color': '#F26722',
+              'text-halo-color': '#06060C',
+              'text-halo-width': 1.5,
+            },
+          });
+        }
+      } else {
+        [labelId, lineId, rasterId].forEach(id => { if (map.getLayer(id)) map.removeLayer(id); });
+        [fpSrcId, srcId].forEach(id => { if (map.getSource(id)) map.removeSource(id); });
+      }
+    });
+  }, [mapReady, imageryState, activeLayers, layerOpacity]);
+
+  /* Opacity is repainted on its own rather than inside the effect above, so
+     dragging the slider updates the existing layer instead of tearing the
+     PMTiles source down and refetching every tile. */
+  useEffect(() => {
+    if (!mapReady || !mapRef.current) return;
+    const map = mapRef.current;
+    SCENES_BY_DATE.forEach(scene => {
+      const rasterId = `imagery-${scene.id}-raster`;
+      if (map.getLayer(rasterId)) {
+        map.setPaintProperty(rasterId, 'raster-opacity', layerOpacity[scene.id] ?? 1);
+      }
+    });
+  }, [mapReady, layerOpacity]);
 
   // ── DRAWING MODE ──
   useEffect(() => {

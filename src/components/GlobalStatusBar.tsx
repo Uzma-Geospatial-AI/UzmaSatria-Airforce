@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { FEATURES } from '@/lib/features';
 
 interface CryptoPrice { symbol: string; price: number; change24h?: number; }
 interface Earthquake { id: string; magnitude: number; place: string; time: number; depth: number; }
@@ -80,15 +81,19 @@ export default function GlobalStatusBar() {
     const fetchData = async () => {
       try {
         const [cryptoRes, quakeRes] = await Promise.allSettled([
-          fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd&include_24hr_change=true')
-            .then(res => res.ok ? res.json() : Promise.reject('CoinGecko error'))
-            .then(data => {
-              const prices: CryptoPrice[] = [];
-              if (data.bitcoin?.usd) prices.push({ symbol: 'BTC', price: data.bitcoin.usd, change24h: data.bitcoin.usd_24h_change });
-              if (data.ethereum?.usd) prices.push({ symbol: 'ETH', price: data.ethereum.usd, change24h: data.ethereum.usd_24h_change });
-              if (data.solana?.usd) prices.push({ symbol: 'SOL', price: data.solana.usd, change24h: data.solana.usd_24h_change });
-              return { ok: true, json: async () => prices };
-            }),
+          /* Skipped entirely when the markets module is off — this polls every
+             60s, so leaving it running would be pure waste. */
+          FEATURES.markets
+            ? fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd&include_24hr_change=true')
+                .then(res => res.ok ? res.json() : Promise.reject('CoinGecko error'))
+                .then(data => {
+                  const prices: CryptoPrice[] = [];
+                  if (data.bitcoin?.usd) prices.push({ symbol: 'BTC', price: data.bitcoin.usd, change24h: data.bitcoin.usd_24h_change });
+                  if (data.ethereum?.usd) prices.push({ symbol: 'ETH', price: data.ethereum.usd, change24h: data.ethereum.usd_24h_change });
+                  if (data.solana?.usd) prices.push({ symbol: 'SOL', price: data.solana.usd, change24h: data.solana.usd_24h_change });
+                  return { ok: true, json: async () => prices };
+                })
+            : Promise.resolve({ ok: false, json: async () => [] as CryptoPrice[] }),
           fetch('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson')
             .then(res => res.ok ? res.json() : Promise.reject('USGS error'))
             .then(data => ({
@@ -176,17 +181,21 @@ export default function GlobalStatusBar() {
             {[...Array(4)].map((_, repeatIdx) => (
               <span key={repeatIdx} className="inline-flex items-center">
                 {/* Crypto prices */}
-                {crypto.map(c => (
-                  <span key={`${c.symbol}-${repeatIdx}`} className="inline-flex items-center gap-1 mx-3">
-                    {c.symbol === 'BTC' && <BtcIcon />}
-                    {c.symbol === 'ETH' && <EthIcon />}
-                    {c.symbol === 'SOL' && <SolanaIcon />}
-                    <span className="text-white/80 font-bold">{formatPrice(c.price)}</span>
-                    {formatChange(c.change24h)}
-                  </span>
-                ))}
-                {/* Separator */}
-                <span className="text-white/10 mx-2">│</span>
+                {FEATURES.markets && (
+                  <>
+                    {crypto.map(c => (
+                      <span key={`${c.symbol}-${repeatIdx}`} className="inline-flex items-center gap-1 mx-3">
+                        {c.symbol === 'BTC' && <BtcIcon />}
+                        {c.symbol === 'ETH' && <EthIcon />}
+                        {c.symbol === 'SOL' && <SolanaIcon />}
+                        <span className="text-white/80 font-bold">{formatPrice(c.price)}</span>
+                        {formatChange(c.change24h)}
+                      </span>
+                    ))}
+                    {/* Separator */}
+                    <span className="text-white/10 mx-2">│</span>
+                  </>
+                )}
                 {/* Earthquakes */}
                 {quakes.map(quake => (
                   <span 

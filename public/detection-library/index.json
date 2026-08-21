@@ -1,0 +1,292 @@
+{
+ "source": "ImStrat Corporation \u2014 Target Category Reporting List for Imagery Intelligence Analysis (2006)",
+ "category_count": 19,
+ "categories": [
+  {
+   "code": "01",
+   "name": "Airfields",
+   "sections": [
+    "LOCATION AND TYPE",
+    "STATUS",
+    "EQUIPMENT AND ACTIVITY",
+    "DEFENCE",
+    "DAMAGE ASSESSMENT",
+    "FACILITIES DESCRIPTION",
+    "ANALYST COMMENTS"
+   ],
+   "library": {
+    "dir": "cat01-airfields",
+    "count": 128,
+    "groups": [
+     "Fixed Wing",
+     "Rotary Wing"
+    ],
+    "origins": [
+     "CIS",
+     "NATO"
+    ]
+   }
+  },
+  {
+   "code": "02",
+   "name": "Missile and Artillery Systems",
+   "sections": [
+    "LOCATION AND TYPE",
+    "STATUS",
+    "EQUIPMENT AND ACTIVITY",
+    "DEFENCE",
+    "DAMAGE ASSESSMENT",
+    "FACILITIES DESCRIPTION",
+    "ANALYST COMMENTS"
+   ],
+   "library": null
+  },
+  {
+   "code": "03",
+   "name": "Electronic Installations",
+   "sections": [
+    "LOCATION AND TYPE",
+    "STATUS",
+    "EQUIPMENT AND ACTIVITY",
+    "DEFENCE",
+    "DAMAGE ASSESSMENT",
+    "FACILITIES DESCRIPTION",
+    "ANALYST COMMENTS"
+   ],
+   "library": null
+  },
+  {
+   "code": "04",
+   "name": "Military HQ and Barracks",
+   "sections": [
+    "LOCATION AND TYPE",
+    "STATUS",
+    "EQUIPMENT AND ACTIVITY",
+    "DEFENCE",
+    "DAMAGE ASSESSMENT",
+    "FACILITIES DESCRIPTION",
+    "ANALYST COMMENTS"
+   ],
+   "library": null
+  },
+  {
+   "code": "05",
+   "name": "Storage and Repair Installation",
+   "sections": [
+    "LOCATION AND TYPE",
+    "STATUS",
+    "EQUIPMENT AND ACTIVITY",
+    "DEFENCE",
+    "DAMAGE ASSESSMENT",
+    "FACILITIES DESCRIPTION",
+    "ANALYST COMMENTS"
+   ],
+   "library": null
+  },
+  {
+   "code": "06",
+   "name": "Military Activity",
+   "sections": [
+    "LOCATION AND TYPE",
+    "STATUS",
+    "EQUIPMENT AND ACTIVITY",
+    "DEFENCE",
+    "DAMAGE ASSESSMENT",
+    "FACILITIES DESCRIPTION",
+    "ANALYST COMMENTS"
+   ],
+   "library": null
+  },
+  {
+   "code": "07",
+   "name": "Obstacle Crossing",
+   "sections": [
+    "LOCATION AND TYPE",
+    "STATUS",
+    "EQUIPMENT AND ACTIVITY",
+    "DEFENCE",
+    "DAMAGE ASSESSMENT",
+    "FACILITIES DESCRIPTION",
+    "ANALYST COMMENTS"
+   ],
+   "library": null
+  },
+  {
+   "code": "08",
+   "name": "Shipping",
+   "sections": [
+    "LOCATION AND TYPE",
+    "STATUS",
+    "EQUIPMENT AND ACTIVITY",
+    "DEFENCE",
+    "DAMAGE ASSESSMENT",
+    "FACILITIES DESCRIPTION",
+    "ANALYST COMMENTS"
+   ],
+   "library": {
+    "dir": "cat08-shipping",
+    "count": 17,
+    "groups": [
+     "Vessel Type"
+    ],
+    "origins": [
+     "Generic"
+    ]
+   }
+  },
+  {
+   "code": "09",
+   "name": "Route Reconnaissance",
+   "sections": [
+    "LOCATION AND TYPE",
+    "STATUS",
+    "EQUIPMENT AND ACTIVITY",
+    "DEFENCE",
+    "DAMAGE ASSESSMENT",
+    "FACILITIES DESCRIPTION",
+    "ANALYST COMMENTS"
+   ],
+   "library": null
+  },
+  {
+   "code": "10",
+   "name": "Terrain Reconnaissance",
+   "sections": [
+    "LOCATION AND TYPE",
+    "STATUS",
+    "EQUIPMENT AND ACTIVITY",
+    "DEFENCE",
+    "DAMAGE ASSESSMENT",
+    "FACILITIES DESCRIPTION",
+    "ANALYST COMMENTS"
+   ],
+   "library": null
+  },
+  {
+   "code": "11",
+   "name": "Coastal Reconnaissance",
+   "sections": [
+    "LOCATION AND TYPE",
+    "STATUS",
+    "EQUIPMENT AND ACTIVITY",
+    "DEFENCE",
+    "DAMAGE ASSESSMENT",
+    "FACILITIES DESCRIPTION",
+    "ANALYST COMMENTS"
+   ],
+   "library": null
+  },
+  {
+   "code": "12",
+   "name": "Bridges",
+   "sections": [
+    "LOCATION AND TYPE",
+    "STATUS",
+    "EQUIPMENT AND ACTIVITY",
+    "DEFENCE",
+    "DAMAGE ASSESSMENT",
+    "FACILITIES DESCRIPTION",
+    "ANALYST COMMENTS"
+   ],
+   "library": null
+  },
+  {
+   "code": "13",
+   "name": "Water Control Installations",
+   "sections": [
+    "LOCATION AND TYPE",
+    "STATUS",
+    "EQUIPMENT AND ACTIVITY",
+    "DEFENCE",
+    "DAMAGE ASSESSMENT",
+    "FACILITIES DESCRIPTION",
+    "ANALYST COMMENTS"
+   ],
+   "library": null
+  },
+  {
+   "code": "14",
+   "name": "Port Facilities",
+   "sections": [
+    "LOCATION AND TYPE",
+    "STATUS",
+    "EQUIPMENT AND ACTIVITY",
+    "DEFENCE",
+    "DAMAGE ASSESSMENT",
+    "FACILITIES DESCRIPTION",
+    "ANALYST COMMENTS"
+   ],
+   "library": null
+  },
+  {
+   "code": "15",
+   "name": "Rail Installations",
+   "sections": [
+    "LOCATION AND TYPE",
+    "STATUS",
+    "EQUIPMENT AND ACTIVITY",
+    "DEFENCE",
+    "DAMAGE ASSESSMENT",
+    "FACILITIES DESCRIPTION",
+    "ANALYST COMMENTS"
+   ],
+   "library": null
+  },
+  {
+   "code": "16",
+   "name": "Industrial Installations",
+   "sections": [
+    "LOCATION AND TYPE",
+    "STATUS",
+    "EQUIPMENT AND ACTIVITY",
+    "DEFENCE",
+    "DAMAGE ASSESSMENT",
+    "FACILITIES DESCRIPTION",
+    "ANALYST COMMENTS"
+   ],
+   "library": null
+  },
+  {
+   "code": "17",
+   "name": "Power Installations",
+   "sections": [
+    "LOCATION AND TYPE",
+    "STATUS",
+    "EQUIPMENT AND ACTIVITY",
+    "DEFENCE",
+    "DAMAGE ASSESSMENT",
+    "FACILITIES DESCRIPTION",
+    "ANALYST COMMENTS"
+   ],
+   "library": null
+  },
+  {
+   "code": "18",
+   "name": "Urban Areas / Habitations",
+   "sections": [
+    "LOCATION AND TYPE",
+    "STATUS",
+    "EQUIPMENT AND ACTIVITY",
+    "DEFENCE",
+    "DAMAGE ASSESSMENT",
+    "FACILITIES DESCRIPTION",
+    "ANALYST COMMENTS"
+   ],
+   "library": null
+  },
+  {
+   "code": "19",
+   "name": "Specific Structures",
+   "sections": [
+    "LOCATION AND TYPE",
+    "STATUS",
+    "EQUIPMENT AND ACTIVITY",
+    "DEFENCE",
+    "DAMAGE ASSESSMENT",
+    "FACILITIES DESCRIPTION",
+    "ANALYST COMMENTS"
+   ],
+   "library": null
+  }
+ ]
+}

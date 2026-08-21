@@ -4,8 +4,8 @@ import "./globals.css";
 
 const SITE_URL = "https://osirisai.live";
 const SITE_NAME = "OSIRIS";
-const SITE_TITLE = "OSIRIS — Open Source Intelligence Platform | Live Flight Tracking, CCTV, OSINT Tools & More";
-const SITE_DESCRIPTION = "The open-source Palantir alternative. Track 10,000+ aircraft, 2,000 satellites, and worldwide CCTV cameras in real-time on a 3D globe. Run Nmap scans, DNS lookups, WHOIS queries, SSL cert analysis & threat intelligence — all from your browser. 20+ live data feeds including earthquakes, wildfires, nuclear facilities, cyber threats, and global conflicts. Free & open source.";
+const SITE_TITLE = "UzmaSATRIA - GEOINT Platform";
+const SITE_DESCRIPTION = "UzmaSATRIA is a real-time geospatial intelligence platform. Track aircraft, vessels, satellites and CCTV networks on a 3D globe, and monitor earthquakes, wildfires, severe weather, space weather, cyber threats and conflict zones — all from a single interface.";
 
 export const viewport: Viewport = {
   themeColor: "#D4AF37",
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: SITE_TITLE,
-    template: "%s | OSIRIS Intelligence",
+    template: "%s | UzmaSATRIA",
   },
   description: SITE_DESCRIPTION,
   keywords: [
@@ -91,8 +91,8 @@ export const metadata: Metadata = {
     canonical: SITE_URL,
   },
   openGraph: {
-    title: "OSIRIS — The Open-Source Palantir Alternative | Live Flights, CCTV, Satellites & OSINT Tools",
-    description: "Track 10K+ aircraft, 2K satellites & worldwide CCTV on a 3D globe. Run Nmap, DNS, WHOIS & threat intel scans from your browser. 20+ live intelligence feeds. Free. Open source.",
+    title: "UzmaSATRIA - GEOINT Platform",
+    description: "Real-time geospatial intelligence. Aircraft, vessels, satellites, CCTV and hazard monitoring on a single 3D globe.",
     type: "website",
     siteName: SITE_NAME,
     locale: "en_US",
@@ -102,15 +102,15 @@ export const metadata: Metadata = {
         url: `${SITE_URL}/og-image.png`,
         width: 1200,
         height: 630,
-        alt: "OSIRIS — Open Source Intelligence Platform with Live Tracking & OSINT Tools",
+        alt: "UzmaSATRIA - GEOINT Platform",
         type: "image/png",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "🛰️ OSIRIS — Open Source Palantir Alternative | Live Tracking + OSINT Tools",
-    description: "Track 10K+ flights, satellites & CCTV worldwide. Run Nmap, DNS, WHOIS scans from your browser. 20+ live intel feeds. Free & open source.",
+    title: "UzmaSATRIA - GEOINT Platform",
+    description: "Real-time geospatial intelligence. Aircraft, vessels, satellites, CCTV and hazard monitoring on a single 3D globe.",
     creator: "@simplifaisoul",
     site: "@simplifaisoul",
     images: [`${SITE_URL}/og-image.png`],
