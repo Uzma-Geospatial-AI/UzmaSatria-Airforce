@@ -1,0 +1,22 @@
+# UzmaSATRIA-Airforce — single Next.js (standalone) container. No database.
+#
+#   docker compose up -d --build     # build & start
+#   docker compose down              # stop
+#
+# Open at:  http://localhost:8140
+name: uzmasatria
+
+services:
+  app:
+    build: .
+    image: uzmasatria:latest
+    container_name: uzmasatria
+    # Optional API keys (all features work without them). The deploy workflow
+    # writes .env from the APP_ENV secret if set, otherwise an empty file.
+    env_file:
+      - ./.env
+    ports:
+      # Published on localhost only; host nginx reverse-proxies the subdomain.
+      # Host port overridable (server sets APP_PORT=8140).
+      - "127.0.0.1:${APP_PORT:-8140}:3000"
+    restart: unless-stopped

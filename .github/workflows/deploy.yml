@@ -1,0 +1,59 @@
+name: Deploy to EC2
+
+# Every push to master ships the code to the server over SSH and rebuilds the
+# single Docker image there. Manual runs via "Run workflow".
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-uzmasatria
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Rsync code to server
+        # --delete keeps the mirror clean; .env is excluded so the server's
+        # secrets are preserved between deploys.
+        run: |
+          rsync -az --delete \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='.env' \
+            --exclude='node_modules' \
+            --exclude='.next' \
+            -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes" \
+            ./ "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/ubuntu/uzmasatria/"
+
+      - name: Write .env from secret (optional; all keys are optional)
+        env:
+          APP_ENV: ${{ secrets.APP_ENV }}
+        run: |
+          ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes \
+            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
+            "umask 077 && printf '%s' \"$APP_ENV\" > /home/ubuntu/uzmasatria/.env && echo '  .env written (empty if no APP_ENV secret)'"
+
+      - name: Build & restart container
+        run: |
+          ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes \
+            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
+            'cd /home/ubuntu/uzmasatria && APP_PORT=8140 docker compose up -d --build && docker image prune -f'
+
+      - name: Health check
+        run: |
+          ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes \
+            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
+            'sleep 8; curl -fsS -o /dev/null -w "app -> HTTP %{http_code}\n" http://127.0.0.1:8140/'
