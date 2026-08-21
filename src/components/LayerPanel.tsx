@@ -460,73 +460,73 @@ function LayerPanel({ data, activeLayers, setActiveLayers, isMobile, theme = 'co
             </div>
           );
         })}
+
+        {/* ── Defence Solution ──
+            Not a layer: an outbound link to the Aetosky platform. It closes the
+            group column, sitting directly under the DISPLAY group's sun, and
+            carries the brand orange so it does not read as one more group of
+            toggles. The rail is icon-only, so it gets the same hover flyout the
+            groups use — a shield on its own would say nothing. */}
+        <div
+          className="relative flex items-center justify-center"
+          onMouseEnter={() => setHoveredGroup(DEFENCE_KEY)}
+          onMouseLeave={() => setHoveredGroup(null)}
+        >
+          <a
+            href={DEFENCE_SOLUTION_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-300"
+            style={{ background: hoveredGroup === DEFENCE_KEY ? 'rgba(242,103,34,0.12)' : 'transparent' }}
+            aria-label="Defence Solution — opens the Aetosky platform in a new tab"
+          >
+            <Shield
+              className="transition-all duration-300"
+              style={{
+                width: 16,
+                height: 16,
+                color: hoveredGroup === DEFENCE_KEY ? '#F26722' : 'rgba(242,103,34,0.55)',
+                filter: hoveredGroup === DEFENCE_KEY ? 'drop-shadow(0 0 6px rgba(242,103,34,0.5))' : 'none',
+              }}
+            />
+          </a>
+
+          <AnimatePresence>
+            {hoveredGroup === DEFENCE_KEY && (
+              <motion.div
+                initial={{ opacity: 0, x: -8, filter: 'blur(4px)' }}
+                animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                exit={{ opacity: 0, x: -4, filter: 'blur(2px)' }}
+                transition={{ duration: 0.18, ease: 'easeOut' }}
+                className="absolute left-[52px] top-1/2 -translate-y-1/2 min-w-[220px] rounded-xl p-3 z-[100] pointer-events-auto"
+                style={{
+                  background: 'rgba(0,0,0,0.6)',
+                  backdropFilter: 'blur(40px) saturate(1.5)',
+                  WebkitBackdropFilter: 'blur(40px) saturate(1.5)',
+                  border: '1px solid rgba(242,103,34,0.2)',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
+                }}
+              >
+                <div className="text-[11px] font-mono tracking-[0.2em] uppercase text-[#F26722]/70 mb-2 pb-1.5 border-b border-white/[0.04]">
+                  Defence Solution
+                </div>
+                <a
+                  href={DEFENCE_SOLUTION_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-[12px] font-mono text-white/60 hover:text-white transition-colors"
+                >
+                  <span className="flex-1">Open the Aetosky platform</span>
+                  <ExternalLink className="w-3 h-3 text-[#F26722]" />
+                </a>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
 
       {/* Subtle separator */}
       <div className="w-5 h-px bg-white/[0.06] my-2" />
-
-      {/* ── Defence Solution ──
-          Not a layer: an outbound link to the Aetosky platform. It sits below
-          the separator with the other non-layer controls, and carries the
-          brand orange so it does not read as one more group of toggles. The
-          rail is icon-only, so it gets the same hover flyout the groups use —
-          a shield on its own would say nothing. */}
-      <div
-        className="relative flex items-center justify-center"
-        onMouseEnter={() => setHoveredGroup(DEFENCE_KEY)}
-        onMouseLeave={() => setHoveredGroup(null)}
-      >
-        <a
-          href={DEFENCE_SOLUTION_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-300"
-          style={{ background: hoveredGroup === DEFENCE_KEY ? 'rgba(242,103,34,0.12)' : 'transparent' }}
-          aria-label="Defence Solution — opens the Aetosky platform in a new tab"
-        >
-          <Shield
-            className="transition-all duration-300"
-            style={{
-              width: 16,
-              height: 16,
-              color: hoveredGroup === DEFENCE_KEY ? '#F26722' : 'rgba(242,103,34,0.55)',
-              filter: hoveredGroup === DEFENCE_KEY ? 'drop-shadow(0 0 6px rgba(242,103,34,0.5))' : 'none',
-            }}
-          />
-        </a>
-
-        <AnimatePresence>
-          {hoveredGroup === DEFENCE_KEY && (
-            <motion.div
-              initial={{ opacity: 0, x: -8, filter: 'blur(4px)' }}
-              animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
-              exit={{ opacity: 0, x: -4, filter: 'blur(2px)' }}
-              transition={{ duration: 0.18, ease: 'easeOut' }}
-              className="absolute left-[52px] top-1/2 -translate-y-1/2 min-w-[220px] rounded-xl p-3 z-[100] pointer-events-auto"
-              style={{
-                background: 'rgba(0,0,0,0.6)',
-                backdropFilter: 'blur(40px) saturate(1.5)',
-                WebkitBackdropFilter: 'blur(40px) saturate(1.5)',
-                border: '1px solid rgba(242,103,34,0.2)',
-                boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
-              }}
-            >
-              <div className="text-[11px] font-mono tracking-[0.2em] uppercase text-[#F26722]/70 mb-2 pb-1.5 border-b border-white/[0.04]">
-                Defence Solution
-              </div>
-              <a
-                href={DEFENCE_SOLUTION_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-[12px] font-mono text-white/60 hover:text-white transition-colors"
-              >
-                <span className="flex-1">Open the Aetosky platform</span>
-                <ExternalLink className="w-3 h-3 text-[#F26722]" />
-              </a>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
 
       {/* Ghost Protocol Toggle */}
       {setTheme && (
