@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Layers, Layers3, BarChart3, Newspaper, Search, X, Globe, MapPinned, Route, Radar, Satellite, Moon, ExternalLink, AlertTriangle, Activity, Database, Wifi, Play, Network, Crosshair, Bluetooth, Pentagon, Radio, Ruler, BookOpen } from 'lucide-react';
+import { Layers, Layers3, BarChart3, Newspaper, Search, X, Globe, MapPinned, Route, Radar, Satellite, Moon, ExternalLink, AlertTriangle, Activity, Database, Wifi, Play, Network, Crosshair, Bluetooth, Pentagon, Radio, Ruler, BookOpen, Shield } from 'lucide-react';
 import { MEASURE_COLORS, type LngLat, type Measurement, type MeasureKind, type MeasureUnit } from '@/lib/measure';
 import { activeLegend } from '@/lib/legend';
 import IntelFeed from '@/components/IntelFeed';
@@ -1273,6 +1273,25 @@ export default function Dashboard() {
           </>
         )}
       </motion.div>
+
+      {/* ── MOBILE: Defence Solution ──
+          The bottom status bar that carries this on desktop is hidden below
+          md, so a phone would never see the link without its own button. Held
+          back while routing owns the top of the screen, for the same reason
+          the promo cluster below is. */}
+      {isMobile && !showDirections && !navSession && (
+        <motion.a
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.5 }}
+          href="https://platform.aetosky.com/pages/login"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="absolute top-3 right-3 z-[201] pointer-events-auto glass-panel px-2.5 py-1.5 flex items-center gap-1.5 border-[#F26722]/40 bg-[#F26722]/15 hover:bg-[#F26722]/25 transition-colors"
+        >
+          <Shield className="w-3 h-3 text-[#F26722]" />
+          <span className="text-[10px] font-mono font-bold tracking-widest text-[#F26722]">DEFENCE</span>
+          <ExternalLink className="w-2.5 h-2.5 text-[#F26722]/70" />
+        </motion.a>
+      )}
 
       {/* ── MOBILE: Compact top status ── */}
       {/* The route planner claims the top of a phone screen; leaving this in

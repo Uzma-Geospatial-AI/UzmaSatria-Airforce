@@ -7,7 +7,23 @@ import { FEATURES } from '@/lib/features';
 interface CryptoPrice { symbol: string; price: number; change24h?: number; }
 interface Earthquake { id: string; magnitude: number; place: string; time: number; depth: number; }
 
+/** Opens in a new tab, so the operator does not lose the live map. */
+const DEFENCE_SOLUTION_URL = 'https://platform.aetosky.com/pages/login';
+
 /* ─── Inline SVG Icons ─── */
+const ShieldIcon = () => (
+  <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+  </svg>
+);
+
+const ExternalLinkIcon = () => (
+  <svg className="w-2.5 h-2.5 opacity-70" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+    <path d="M15 3h6v6M10 14 21 3" />
+  </svg>
+);
+
 const SolanaIcon = () => (
   <svg className="w-3.5 h-3.5" viewBox="0 0 32 32" fill="none">
     <path d="M6 10h14l4 3H10l-4-3zm0 9h14l4 3H10l-4-3zm18-6H10l-4 3h14l4-3z" fill="url(#sol_grad_bar)"/>
@@ -130,6 +146,21 @@ export default function GlobalStatusBar() {
         {/* Animated scan line */}
         <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[var(--cyan-primary)]/30 to-transparent" style={{ animation: 'hud-scanline 4s linear infinite' }} />
         
+        {/* ── LEFT: Defence Solution ── */}
+        <div className="flex-shrink-0 h-full flex items-center pointer-events-auto">
+          <a
+            href={DEFENCE_SOLUTION_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Defence Solution — Aetosky platform"
+            className="h-full px-3 flex items-center gap-1.5 bg-[#F26722]/15 hover:bg-[#F26722]/30 border-r border-white/[0.04] text-[#F26722] transition-colors duration-200"
+          >
+            <ShieldIcon />
+            <span className="text-[10px] font-bold tracking-[0.15em] uppercase">Defence Solution</span>
+            <ExternalLinkIcon />
+          </a>
+        </div>
+
         {/* ── CENTER: Scrolling ticker ── */}
         <div className="flex-1 overflow-hidden relative" style={{ maskImage: 'linear-gradient(to right, transparent, black 3%, black 97%, transparent)' }}>
           <div className={`flex items-center animate-ticker whitespace-nowrap ${hasTicker ? '' : 'hidden'}`}>
