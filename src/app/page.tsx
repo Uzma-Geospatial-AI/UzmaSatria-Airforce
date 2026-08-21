@@ -1283,8 +1283,6 @@ export default function Dashboard() {
         <motion.a
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.5 }}
           href="https://platform.aetosky.com/pages/login"
-          target="_blank"
-          rel="noopener noreferrer"
           className="absolute top-3 right-3 z-[201] pointer-events-auto glass-panel px-2.5 py-1.5 flex items-center gap-1.5 border-[#F26722]/40 bg-[#F26722]/15 hover:bg-[#F26722]/25 transition-colors"
         >
           <Shield className="w-3 h-3 text-[#F26722]" />

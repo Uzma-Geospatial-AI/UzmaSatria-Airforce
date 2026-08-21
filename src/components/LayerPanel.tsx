@@ -468,17 +468,15 @@ function LayerPanel({ data, activeLayers, setActiveLayers, isMobile, theme = 'co
             toggles. The rail is icon-only, so it gets the same hover flyout the
             groups use — a shield on its own would say nothing. */}
         <div
-          className="relative flex items-center justify-center"
+          className="order-first relative flex items-center justify-center"
           onMouseEnter={() => setHoveredGroup(DEFENCE_KEY)}
           onMouseLeave={() => setHoveredGroup(null)}
         >
           <a
             href={DEFENCE_SOLUTION_URL}
-            target="_blank"
-            rel="noopener noreferrer"
             className="w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-300"
             style={{ background: hoveredGroup === DEFENCE_KEY ? 'rgba(242,103,34,0.12)' : 'transparent' }}
-            aria-label="Defence Solution — opens the Aetosky platform in a new tab"
+            aria-label="Defence Solution — opens the Aetosky platform"
           >
             <Shield
               className="transition-all duration-300"
@@ -512,8 +510,6 @@ function LayerPanel({ data, activeLayers, setActiveLayers, isMobile, theme = 'co
                 </div>
                 <a
                   href={DEFENCE_SOLUTION_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="flex items-center gap-2 text-[12px] font-mono text-white/60 hover:text-white transition-colors"
                 >
                   <span className="flex-1">Open the Aetosky platform</span>
