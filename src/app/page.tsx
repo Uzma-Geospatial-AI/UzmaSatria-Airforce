@@ -3,8 +3,9 @@
 import { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Layers, Layers3, BarChart3, Newspaper, Search, X, Globe, MapPinned, Route, Radar, Satellite, Moon, ExternalLink, AlertTriangle, Activity, Database, Wifi, Play, Network, Crosshair, Bluetooth, Pentagon, Radio, Ruler } from 'lucide-react';
+import { Layers, Layers3, BarChart3, Newspaper, Search, X, Globe, MapPinned, Route, Radar, Satellite, Moon, ExternalLink, AlertTriangle, Activity, Database, Wifi, Play, Network, Crosshair, Bluetooth, Pentagon, Radio, Ruler, BookOpen } from 'lucide-react';
 import { MEASURE_COLORS, type LngLat, type Measurement, type MeasureKind, type MeasureUnit } from '@/lib/measure';
+import { activeLegend } from '@/lib/legend';
 import IntelFeed from '@/components/IntelFeed';
 import MarketsPanel from '@/components/MarketsPanel';
 import ScmPanel from '@/components/ScmPanel';
@@ -32,6 +33,7 @@ const EntityGraphPanel = dynamic(() => import('@/components/EntityGraphPanel'));
 const TokenPanel = dynamic(() => import('@/components/TokenPanel'));
 const TargetLibraryPanel = dynamic(() => import('@/components/TargetLibraryPanel'));
 const MeasureToolbox = dynamic(() => import('@/components/MeasureToolbox'));
+const MapLegend = dynamic(() => import('@/components/MapLegend'));
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
@@ -216,6 +218,13 @@ export default function Dashboard() {
   const [demoMode, setDemoMode] = useState(false);
   const [osirisTheme, setOsirisTheme] = useState<'core'|'ghost'>('core');
 
+  /* ── LEGEND ──
+     It appears on its own the first time a layer is switched on — a symbol the
+     operator cannot decode is worse than one more panel — and stays dismissed
+     once they close it, until every layer goes off and the cycle can restart. */
+  const [showLegend, setShowLegend] = useState(false);
+  const [legendDismissed, setLegendDismissed] = useState(false);
+
   // ── MEASUREMENT TOOLBOX ──
   const [showToolbox, setShowToolbox] = useState(false);
   const [measureTool, setMeasureTool] = useState<MeasureKind | null>(null);
@@ -313,13 +322,16 @@ export default function Dashboard() {
   const geocodeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastGeocodedPos = useRef<{ lat: number; lng: number } | null>(null);
 
-  // ── DEFAULT: Most layers OFF — fast initial load ──
+  /* ── DEFAULT: every layer off ──
+     The operator opens on a bare map and switches on only what the task
+     needs. sdk_* and conflict_zones must be an explicit false rather than
+     absent: the map draws those unless it is told not to. ── */
   const [activeLayers, setActiveLayers] = useState({
     flights: false,
     private: false,
     jets: false,
     military: false,
-    maritime: true,
+    maritime: false,
     satellites: false,
     sat_comms: false,
     sat_military: false,
@@ -327,27 +339,53 @@ export default function Dashboard() {
     sat_earth: false,
     sat_science: false,
     balloons: false,
-    cctv: true,
-    live_news: true,
-    earthquakes: true,
+    cctv: false,
+    live_news: false,
+    earthquakes: false,
     fires: false,
     weather: false,
     radiation: false,
     infrastructure: false,
-    global_incidents: true,
+    global_incidents: false,
     war_alerts: false,
-    day_night: true,
-    cables: true,
-    sdk_sea: true,
-    sdk_air: true,
-    sdk_naval: true,
+    day_night: false,
+    cables: false,
+    sdk_sea: false,
+    sdk_air: false,
+    sdk_naval: false,
     terrain_3d: false,
     malware: false,
     cyber_attacks: false,
     gdelt_events: false,
     cf_outages: false,
     cf_attacks: false,
+    conflict_zones: false,
   });
+
+  /* The legend is only meaningful next to something drawn, so it tracks the
+     toggles rather than sitting there empty: it opens with the first layer and
+     closes again when the last one goes off, which also re-arms the auto-open
+     so a later session of toggling still explains itself. */
+  /* Keyed off what the legend can actually explain, not off the raw toggles:
+     a layer like 3D terrain has no symbology, and popping an empty panel for
+     it would be worse than not opening at all. */
+  const hasLegend = useMemo(
+    () => activeLegend(activeLayers, osirisTheme).length > 0,
+    [activeLayers, osirisTheme],
+  );
+  useEffect(() => {
+    if (!hasLegend) {
+      setShowLegend(false);
+      setLegendDismissed(false);
+      return;
+    }
+    if (!legendDismissed) setShowLegend(true);
+  }, [hasLegend, legendDismissed]);
+
+  const dismissLegend = useCallback(() => {
+    setShowLegend(false);
+    setLegendDismissed(true);
+  }, []);
   /* Per-layer opacity, 0..1, keyed by layer key. Only imagery scenes expose a
      control today. Missing key means fully opaque, so scenes that have never
      been touched need no seeding here. */
@@ -1080,6 +1118,19 @@ export default function Dashboard() {
         className="absolute bottom-[75px] md:bottom-[100px] z-[200] flex flex-col gap-1.5 pointer-events-none"
         style={{ left: isMobile ? '12px' : '120px' }}
       >
+        {/* Legend — above the controls, in the corner the eye already uses
+            for scale. */}
+        <AnimatePresence>
+          {showLegend && !isMobile && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }}
+              className="mb-1 pointer-events-auto"
+            >
+              <MapLegend activeLayers={activeLayers} theme={osirisTheme} onClose={dismissLegend} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* Unified Control Strip */}
         <div className="flex items-center gap-1.5 pointer-events-auto">
           {/* Projection Toggle (Globe / 2D) */}
@@ -1137,6 +1188,22 @@ export default function Dashboard() {
             >
               <Satellite className="w-3.5 h-3.5" />
               <span className="hidden md:inline">SAT</span>
+            </button>
+          </div>
+
+          {/* Legend toggle — the way back after the legend is dismissed. */}
+          <div className="flex items-center rounded-xl overflow-hidden border border-[var(--border-primary)] bg-[var(--bg-panel)] backdrop-blur-2xl shadow-[0_4px_24px_rgba(0,0,0,0.5)]">
+            <button
+              onClick={() => { if (showLegend) { dismissLegend(); } else { setShowLegend(true); setLegendDismissed(false); } }}
+              className={`flex items-center gap-1.5 px-3 py-2 text-[11px] font-mono tracking-wider transition-all duration-200 ${
+                showLegend
+                  ? 'bg-[var(--cyan-primary)]/15 text-[var(--cyan-primary)]'
+                  : 'text-[var(--text-muted)] hover:text-[var(--text-secondary)]'
+              }`}
+              title="Legend — what the symbols on the map mean"
+            >
+              <BookOpen className="w-3.5 h-3.5" />
+              <span className="hidden md:inline">KEY</span>
             </button>
           </div>
         </div>
@@ -1593,6 +1660,12 @@ export default function Dashboard() {
                         </div>
                       </div>
                       <LayerPanel data={data} activeLayers={activeLayers} setActiveLayers={setActiveLayers} isMobile={true} theme={osirisTheme} setTheme={setOsirisTheme} capabilities={capabilities} layerOpacity={layerOpacity} setLayerOpacity={setLayerOpacity} onFocus={(t) => { setFlyToLocation({ lat: t.lat, lng: t.lng, zoom: t.zoom, ts: Date.now() }); setMobilePanel(null); }} />
+                      {hasLegend && (
+                        <div className="mt-4">
+                          <div className="text-[10px] font-mono tracking-[0.2em] text-white/40 mb-1.5 px-1">LEGEND</div>
+                          <MapLegend activeLayers={activeLayers} theme={osirisTheme} embedded />
+                        </div>
+                      )}
                       <div className="mt-8">
                         <ViewPresets onNavigate={(lat, lng, zoom) => { setFlyToLocation({ lat, lng, ts: Date.now() }); setMapView(v => ({ ...v, zoom })); setMobilePanel(null); }} />
                       </div>

@@ -18,7 +18,7 @@ export const FEATURES = {
    * Disabled: not needed for this deployment.
    *
    * Note: the bottom bar itself stays — its earthquake ticker (USGS), the
-   * Discord/X/Docs links and the ONLINE indicator are unrelated to markets.
+   * Docs link and the ONLINE indicator are unrelated to markets.
    * The top-bar `SOLAR: Kp` readout also stays; it reads /api/space-weather
    * directly, not the markets feed.
    */
