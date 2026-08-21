@@ -62,6 +62,20 @@ export const IMAGERY_SCENES: ImageryScene[] = [
     // on the bucket, which is where it belongs.
     proxy: true,
   },
+  {
+    id: 'imagery_20260512',
+    label: '12 May 2026',
+    date: '2026-05-12',
+    site: 'Halim Perdanakusuma, Jakarta',
+    url: 'https://digitalearthbasemap.s3.ap-southeast-1.amazonaws.com/halim.pmtiles',
+    // Straight from the PMTiles header, not estimated. Note the shallower
+    // max zoom than the Paya Lebar capture — this archive stops at 18.
+    bounds: [106.844, -6.31151, 106.953, -6.22068],
+    minzoom: 10,
+    maxzoom: 18,
+    // Same bucket as Paya Lebar, same missing CORS headers.
+    proxy: true,
+  },
 ];
 
 /** Newest last, so later scenes are added above earlier ones on the map. */
