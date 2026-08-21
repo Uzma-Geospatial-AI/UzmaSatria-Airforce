@@ -1112,25 +1112,26 @@ export default function Dashboard() {
         </motion.div>
       )}
 
+      {/* ── LEGEND ──
+          Bottom-right, where a map legend is conventionally read, clear of the
+          tool rail on the right edge and the status ticker along the bottom. */}
+      <AnimatePresence>
+        {showLegend && !isMobile && (
+          <motion.div
+            initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 12 }}
+            className="absolute bottom-[44px] right-14 z-[200] pointer-events-auto"
+          >
+            <MapLegend activeLayers={activeLayers} theme={osirisTheme} onClose={dismissLegend} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* ── MAP VIEW CONTROLS ── */}
       <motion.div
         initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 3.5 }}
         className="absolute bottom-[75px] md:bottom-[100px] z-[200] flex flex-col gap-1.5 pointer-events-none"
         style={{ left: isMobile ? '12px' : '120px' }}
       >
-        {/* Legend — above the controls, in the corner the eye already uses
-            for scale. */}
-        <AnimatePresence>
-          {showLegend && !isMobile && (
-            <motion.div
-              initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }}
-              className="mb-1 pointer-events-auto"
-            >
-              <MapLegend activeLayers={activeLayers} theme={osirisTheme} onClose={dismissLegend} />
-            </motion.div>
-          )}
-        </AnimatePresence>
-
         {/* Unified Control Strip */}
         <div className="flex items-center gap-1.5 pointer-events-auto">
           {/* Projection Toggle (Globe / 2D) */}

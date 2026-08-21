@@ -118,7 +118,7 @@ export default function MapLegend({ activeLayers, theme = 'core', onClose, embed
       </p>
     </div>
   ) : (
-    <div className="overflow-y-auto max-h-[min(60vh,420px)] styled-scrollbar">
+    <div className="overflow-y-auto max-h-[min(52vh,360px)] styled-scrollbar">
       {sections.map((section) => (
         <Section key={section.id} section={section} />
       ))}
