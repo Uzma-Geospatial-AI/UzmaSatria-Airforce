@@ -93,7 +93,7 @@ function Section({ section }: { section: LegendSection }) {
         {section.items.map((item) => (
           <div key={`${item.label}-${item.color}`} className="flex items-center gap-2">
             <Swatch item={item} />
-            <span className="text-[10px] font-mono text-white/70 leading-tight">{item.label}</span>
+            <span className="text-[10px] font-mono text-white/75 leading-snug">{item.label}</span>
           </div>
         ))}
       </div>
@@ -128,7 +128,7 @@ export default function MapLegend({ activeLayers, theme = 'core', onClose, embed
   if (embedded) return <div className="bg-black/40 rounded-lg overflow-hidden">{body}</div>;
 
   return (
-    <div className="pointer-events-auto w-[240px] bg-black/90 backdrop-blur-xl border border-white/[0.06] rounded-lg overflow-hidden glass-panel shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]">
+    <div className="pointer-events-auto w-[280px] bg-black/90 backdrop-blur-xl border border-white/[0.06] rounded-lg overflow-hidden glass-panel shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]">
       <div className="px-3 py-2.5 border-b border-white/[0.06] flex items-center justify-between">
         <button
           onClick={() => setCollapsed((c) => !c)}
