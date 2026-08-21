@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import { IMAGERY_SCENES, sceneCenter } from '@/lib/imageryScenes';
 
-const DEFENCE_SOLUTION_URL = 'https://platform.aetosky.com/pages/login';
+const DEFENCE_SOLUTION_URL = 'https://platform.aetosky.com/projects/9cc5286b-b4e9-4607-a796-230b0d216e46/group-view?group=defense-solution';
 /* Reuses the rail's hover state. A key no group can collide with. */
 const DEFENCE_KEY = '__defence_solution__';
 
