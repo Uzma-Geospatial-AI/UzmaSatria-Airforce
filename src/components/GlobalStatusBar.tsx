@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { FEATURES } from '@/lib/features';
 
@@ -9,13 +8,6 @@ interface CryptoPrice { symbol: string; price: number; change24h?: number; }
 interface Earthquake { id: string; magnitude: number; place: string; time: number; depth: number; }
 
 /* ─── Inline SVG Icons ─── */
-const DocsIcon = () => (
-  <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H10a2 2 0 0 1 2 2 2 2 0 0 1 2-2h4.5A1.5 1.5 0 0 1 20 4.5v13a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 0 0-2 2 2 2 0 0 0-2-2H5.5A1.5 1.5 0 0 1 4 17.5z"/>
-    <path d="M12 7v14"/>
-  </svg>
-);
-
 const SolanaIcon = () => (
   <svg className="w-3.5 h-3.5" viewBox="0 0 32 32" fill="none">
     <path d="M6 10h14l4 3H10l-4-3zm0 9h14l4 3H10l-4-3zm18-6H10l-4 3h14l4-3z" fill="url(#sol_grad_bar)"/>
@@ -123,8 +115,6 @@ export default function GlobalStatusBar() {
     return () => clearInterval(iv);
   }, []);
 
-  // Keep the bar mounted even with no feed data — the docs link must stay
-  // reachable when CoinGecko/USGS are rate-limited or down.
   const hasTicker = crypto.length > 0 || quakes.length > 0;
 
   const solPrice = crypto.find(c => c.symbol === 'SOL');
@@ -140,17 +130,6 @@ export default function GlobalStatusBar() {
         {/* Animated scan line */}
         <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[var(--cyan-primary)]/30 to-transparent" style={{ animation: 'hud-scanline 4s linear infinite' }} />
         
-        {/* ── LEFT: Social & Community Links ── */}
-        <div className="flex-shrink-0 h-full flex items-center pointer-events-auto">
-          {/* Documentation & API reference */}
-          <Link href="/docs" prefetch title="Documentation & API Reference" aria-label="Documentation & API Reference"
-            className="h-full px-3 flex items-center gap-1.5 bg-[var(--gold-primary)]/10 text-[var(--gold-primary)]/80 hover:text-[var(--gold-primary)] hover:bg-[var(--gold-primary)]/25 border-r border-white/[0.04] transition-all duration-200"
-          >
-            <DocsIcon />
-            <span className="text-[10px] font-bold tracking-[0.15em] uppercase">Docs</span>
-          </Link>
-        </div>
-
         {/* ── CENTER: Scrolling ticker ── */}
         <div className="flex-1 overflow-hidden relative" style={{ maskImage: 'linear-gradient(to right, transparent, black 3%, black 97%, transparent)' }}>
           <div className={`flex items-center animate-ticker whitespace-nowrap ${hasTicker ? '' : 'hidden'}`}>
@@ -191,7 +170,7 @@ export default function GlobalStatusBar() {
           </div>
         </div>
 
-        {/* ── RIGHT: Live SOL Price + Links ── */}
+        {/* ── RIGHT: Status ── */}
         <div className="flex-shrink-0 h-full flex items-center pointer-events-auto border-l border-white/[0.04]">
 
           {/* Status indicator */}

@@ -1852,13 +1852,16 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setVis(['choke-glow','choke-dots','choke-label'], activeLayers.maritime);
     setVis(['ship-dots','ship-label'], activeLayers.maritime);
     setVis(['news-glow','news-dots','news-label'], activeLayers.live_news);
-    setVis(['conflict-icons'], activeLayers.conflict_zones !== false);
+    /* Every layer here is opt-in. These four used to draw on `!== false`,
+       which meant a missing key drew them — so they came back on any time the
+       state was rebuilt without them, no matter what the defaults said. */
+    setVis(['conflict-icons'], Boolean(activeLayers.conflict_zones));
 
     setVis(['balloon-dots','balloon-label'], activeLayers.balloons);
     setVis(['rad-glow','rad-dots','rad-label'], activeLayers.radiation);
-    setVis(['sdk-sea','sdk-sea-glow','sdk-sea-atmo'], activeLayers.sdk_sea !== false);
-    setVis(['sdk-air','sdk-air-glow','sdk-air-atmo'], activeLayers.sdk_air !== false);
-    setVis(['sdk-intel','sdk-intel-glow','sdk-intel-atmo'], activeLayers.sdk_naval !== false);
+    setVis(['sdk-sea','sdk-sea-glow','sdk-sea-atmo'], Boolean(activeLayers.sdk_sea));
+    setVis(['sdk-air','sdk-air-glow','sdk-air-atmo'], Boolean(activeLayers.sdk_air));
+    setVis(['sdk-intel','sdk-intel-glow','sdk-intel-atmo'], Boolean(activeLayers.sdk_naval));
     // Sweep layers always visible when data is present (controlled by useEffect)
     setVis(['sweep-connections','sweep-pulse-ring','sweep-device-glow','sweep-device-dots','sweep-device-labels'], true);
   }, [mapReady, activeLayers, setVis]);

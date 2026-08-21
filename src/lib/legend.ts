@@ -48,10 +48,10 @@ export interface LegendSection {
 /** The ghost theme flattens themable symbols to one hue. */
 export const PHANTOM_PURPLE = '#B388FF';
 
+/* Every layer is opt-in: a key that is absent or false means the map is not
+   drawing it, so the legend must not claim it is. The sdk_* and conflict_zones
+   sections used to test `!== false`, which made a missing key read as on. */
 const on = (key: string) => (layers: Record<string, boolean | undefined>) => Boolean(layers[key]);
-/** Layers the map draws unless they are explicitly switched off. */
-const onUnlessOff = (key: string) => (layers: Record<string, boolean | undefined>) =>
-  layers[key] !== false;
 
 export const LEGEND_SECTIONS: LegendSection[] = [
   {
@@ -235,7 +235,7 @@ export const LEGEND_SECTIONS: LegendSection[] = [
   {
     id: 'conflict_zones',
     title: 'CONFLICT ZONES',
-    visible: onUnlessOff('conflict_zones'),
+    visible: on('conflict_zones'),
     items: [
       { color: '#D32F2F', label: 'War', shape: 'triangle' },
       { color: '#E65100', label: 'High intensity', shape: 'triangle' },
@@ -280,19 +280,19 @@ export const LEGEND_SECTIONS: LegendSection[] = [
   {
     id: 'sdk_sea',
     title: 'SUBMARINE CABLES',
-    visible: onUnlessOff('sdk_sea'),
+    visible: on('sdk_sea'),
     items: [{ color: '#1976D2', label: 'Submarine cable', shape: 'line' }],
   },
   {
     id: 'sdk_air',
     title: 'SDK — AIR',
-    visible: onUnlessOff('sdk_air'),
+    visible: on('sdk_air'),
     items: [{ color: '#4DD0E1', label: 'Air domain link', shape: 'line' }],
   },
   {
     id: 'sdk_naval',
     title: 'SDK — INTEL',
-    visible: onUnlessOff('sdk_naval'),
+    visible: on('sdk_naval'),
     items: [{ color: '#7986CB', label: 'Intel domain link', shape: 'line' }],
   },
   {

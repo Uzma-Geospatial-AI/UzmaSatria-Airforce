@@ -56,16 +56,18 @@ describe('activeLegend', () => {
     expect(sections.map((s) => s.id).sort()).toEqual(['cctv', 'earthquakes', 'fires']);
   });
 
-  it('treats an absent key as off for ordinary layers', () => {
-    // An empty state leaves only the draw-unless-disabled sections standing.
-    expect(activeLegend({}).map((s) => s.id).sort()).toEqual(
-      ['conflict_zones', 'sdk_air', 'sdk_naval', 'sdk_sea'],
-    );
+  it('treats an absent key as off, for every layer without exception', () => {
+    // Nothing is opt-out. An empty state must produce an empty legend, or a
+    // rebuilt state object would silently switch layers back on.
+    expect(activeLegend({})).toEqual([]);
   });
 
-  it('keeps draw-unless-disabled layers hidden only on an explicit false', () => {
-    expect(activeLegend({}).map((s) => s.id)).toContain('sdk_sea');
-    expect(activeLegend({ sdk_sea: false }).map((s) => s.id)).not.toContain('sdk_sea');
+  it('hides the SDK and conflict sections unless they are explicitly on', () => {
+    for (const id of ['sdk_sea', 'sdk_air', 'sdk_naval', 'conflict_zones']) {
+      expect(activeLegend({}).map((s) => s.id)).not.toContain(id);
+      expect(activeLegend({ [id]: false }).map((s) => s.id)).not.toContain(id);
+      expect(activeLegend({ [id]: true }).map((s) => s.id)).toContain(id);
+    }
   });
 
   it('preserves the registry order rather than toggle order', () => {
