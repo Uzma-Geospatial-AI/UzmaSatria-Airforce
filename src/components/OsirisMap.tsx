@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback, memo } from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { Protocol } from 'pmtiles';
-import { SCENES_BY_DATE, sceneFootprint } from '@/lib/imageryScenes';
+import { SCENES_BY_DATE, sceneFootprint, sceneUrl } from '@/lib/imageryScenes';
 import {
   measureGeometry, measureStats, summarise, midpoint, centroid, formatDistance,
   FIXED_POINT_TOOLS, MIN_POINTS, MEASURE_COLORS,
@@ -2535,7 +2535,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
              file itself rather than being duplicated (and drifting) here. */
           map.addSource(srcId, {
             type: 'raster',
-            url: `pmtiles://${scene.url}`,
+            url: `pmtiles://${sceneUrl(scene)}`,
             tileSize: 256,
             attribution: `Tasked imagery ${scene.label} — ${scene.site}`,
           });

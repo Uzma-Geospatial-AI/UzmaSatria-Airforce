@@ -33,28 +33,35 @@ export interface ImageryScene {
   bounds: [number, number, number, number];
   minzoom: number;
   maxzoom: number;
+  /**
+   * Read the archive through /api/pmtiles instead of straight from its host.
+   * Set this when the bucket serves no `Access-Control-Allow-Origin`, which a
+   * browser treats as a refusal however public the object is. Check with:
+   *   curl -sI -H 'Origin: http://localhost:3000' <url> | grep -i access-control
+   */
+  proxy?: boolean;
+}
+
+/** The URL the map should actually open, proxied if the host lacks CORS. */
+export function sceneUrl(s: ImageryScene): string {
+  return s.proxy ? `/api/pmtiles?url=${encodeURIComponent(s.url)}` : s.url;
 }
 
 export const IMAGERY_SCENES: ImageryScene[] = [
   {
-    id: 'imagery_20250429',
-    label: '29 Apr 2025',
-    date: '2025-04-29',
-    site: 'Kuantan, Pahang',
-    url: 'https://aeye-checker.s3.ap-southeast-1.amazonaws.com/hackathon/20250429_VISUAL.pmtiles',
-    bounds: [103.29914622, 3.72572334, 103.31878536, 3.82478183],
-    minzoom: 11,
-    maxzoom: 18,
-  },
-  {
-    id: 'imagery_20251222',
-    label: '22 Dec 2025',
-    date: '2025-12-22',
-    site: 'Kuantan, Pahang',
-    url: 'https://aeye-checker.s3.ap-southeast-1.amazonaws.com/hackathon/20251222_VISUAL.pmtiles',
-    bounds: [103.29914622, 3.72572335, 103.31877999, 3.82478183],
-    minzoom: 11,
-    maxzoom: 18,
+    id: 'imagery_20260719',
+    label: '19 Jul 2026',
+    date: '2026-07-19',
+    site: 'Paya Lebar, Singapore',
+    url: 'https://digitalearthbasemap.s3.ap-southeast-1.amazonaws.com/payalebar.pmtiles',
+    // Straight from the PMTiles header, not estimated.
+    bounds: [103.849, 1.30254, 103.9389999, 1.39306],
+    minzoom: 10,
+    maxzoom: 19,
+    // The bucket serves the bytes but sets no CORS headers, so the browser
+    // cannot read it directly. Routed through /api/pmtiles until that is fixed
+    // on the bucket, which is where it belongs.
+    proxy: true,
   },
 ];
 
