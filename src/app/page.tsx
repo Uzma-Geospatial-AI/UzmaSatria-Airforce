@@ -3,7 +3,8 @@
 import { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Layers, Layers3, BarChart3, Newspaper, Search, X, Globe, MapPinned, Route, Radar, Satellite, Moon, ExternalLink, AlertTriangle, Activity, Database, Wifi, Play, Network, Crosshair, Bluetooth, Pentagon, Radio } from 'lucide-react';
+import { Layers, Layers3, BarChart3, Newspaper, Search, X, Globe, MapPinned, Route, Radar, Satellite, Moon, ExternalLink, AlertTriangle, Activity, Database, Wifi, Play, Network, Crosshair, Bluetooth, Pentagon, Radio, Ruler } from 'lucide-react';
+import { MEASURE_COLORS, type LngLat, type Measurement, type MeasureKind, type MeasureUnit } from '@/lib/measure';
 import IntelFeed from '@/components/IntelFeed';
 import MarketsPanel from '@/components/MarketsPanel';
 import ScmPanel from '@/components/ScmPanel';
@@ -30,6 +31,7 @@ const OsintPanel = dynamic(() => import('@/components/OsintPanel'));
 const EntityGraphPanel = dynamic(() => import('@/components/EntityGraphPanel'));
 const TokenPanel = dynamic(() => import('@/components/TokenPanel'));
 const TargetLibraryPanel = dynamic(() => import('@/components/TargetLibraryPanel'));
+const MeasureToolbox = dynamic(() => import('@/components/MeasureToolbox'));
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
@@ -205,7 +207,7 @@ export default function Dashboard() {
   const [arcgisLayers, setArcgisLayers] = useState<Array<{ id: string; title: string; url: string; geojson: any; color: string; visible: boolean; opacity: number }>>([]);
   const [mapCenter, setMapCenter] = useState<{ lat: number; lng: number; bounds?: { west: number; south: number; east: number; north: number } } | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [mobilePanel, setMobilePanel] = useState<'layers'|'markets'|'intel'|'search'|'recon'|'remote'|'targets'|null>(null);
+  const [mobilePanel, setMobilePanel] = useState<'layers'|'markets'|'intel'|'search'|'recon'|'remote'|'targets'|'toolbox'|null>(null);
   const [mapProjection, setMapProjection] = useState<'globe'|'mercator'>('globe');
   const [mapStyle, setMapStyle] = useState<'dark'|'satellite'>('dark');
   const [sweepData, setSweepData] = useState<any>(null);
@@ -214,11 +216,98 @@ export default function Dashboard() {
   const [demoMode, setDemoMode] = useState(false);
   const [osirisTheme, setOsirisTheme] = useState<'core'|'ghost'>('core');
 
+  // ── MEASUREMENT TOOLBOX ──
+  const [showToolbox, setShowToolbox] = useState(false);
+  const [measureTool, setMeasureTool] = useState<MeasureKind | null>(null);
+  const [measurements, setMeasurements] = useState<Measurement[]>([]);
+  const [measureDraft, setMeasureDraft] = useState<LngLat[]>([]);
+  const [measureUnit, setMeasureUnit] = useState<MeasureUnit>('metric');
+  const [selectedMeasurement, setSelectedMeasurement] = useState<string | null>(null);
+  /** Per-tool counter, so labels read RULER 01, RULER 02 rather than a raw id. */
+  const measureSeq = useRef<Record<string, number>>({});
+
+  const handleMeasureCommit = useCallback((points: LngLat[]) => {
+    setMeasureTool((tool) => {
+      if (!tool) return tool;
+      const n = (measureSeq.current[tool] ?? 0) + 1;
+      measureSeq.current[tool] = n;
+      const kindLabel = { distance: 'RULER', area: 'AREA', radius: 'RANGE', bearing: 'BRG' }[tool];
+      setMeasurements((prev) => [
+        {
+          id: `${tool}-${Date.now()}-${n}`,
+          kind: tool,
+          points,
+          color: MEASURE_COLORS[tool],
+          label: `${kindLabel} ${String(n).padStart(2, '0')}`,
+          createdAt: Date.now(),
+        },
+        ...prev,
+      ]);
+      // The tool stays armed so a series of legs can be measured back to back.
+      return tool;
+    });
+    setMeasureDraft([]);
+  }, []);
+
+  const deleteMeasurement = useCallback((id: string) => {
+    setMeasurements((prev) => prev.filter((m) => m.id !== id));
+    setSelectedMeasurement((sel) => (sel === id ? null : sel));
+  }, []);
+
+  const clearMeasurements = useCallback(() => {
+    setMeasurements([]);
+    setSelectedMeasurement(null);
+    measureSeq.current = {};
+  }, []);
+
+  /** Centre the camera on a measurement, zoomed to roughly fit its extent. */
+  const locateMeasurement = useCallback((points: LngLat[]) => {
+    if (!points.length) return;
+    const lngs = points.map((p) => p[0]);
+    const lats = points.map((p) => p[1]);
+    const span = Math.max(
+      Math.max(...lngs) - Math.min(...lngs),
+      Math.max(...lats) - Math.min(...lats),
+    );
+    // 360° of span is world view (z0); halving the span buys one zoom level.
+    const zoom = span > 0 ? Math.min(14, Math.max(2, Math.log2(360 / span) - 0.5)) : 12;
+    setFlyToLocation({
+      lat: (Math.max(...lats) + Math.min(...lats)) / 2,
+      lng: (Math.max(...lngs) + Math.min(...lngs)) / 2,
+      zoom,
+      ts: Date.now(),
+    });
+  }, []);
+
+  // The map already streams the cursor through the draft's trailing vertex, so
+  // the readout comes free rather than costing a second high-frequency state.
+  const measureCursor = useMemo(() => {
+    const last = measureDraft[measureDraft.length - 1];
+    return last ? { lat: last[1], lng: last[0] } : null;
+  }, [measureDraft]);
+
+  const closeToolbox = useCallback(() => {
+    setShowToolbox(false);
+    setMeasureTool(null);
+    setMeasureDraft([]);
+  }, []);
+
   useEffect(() => {
     document.body.className = osirisTheme === 'core' ? '' : `theme-${osirisTheme}`;
   }, [osirisTheme]);
 
   const isMobile = useIsMobile();
+
+  // An armed tool swallows every map click. If the toolbox is no longer on
+  // screen — desktop panel closed, mobile drawer dismissed — disarm it, or the
+  // operator is left clicking a map that silently refuses to select anything.
+  const toolboxVisible = isMobile ? mobilePanel === 'toolbox' : showToolbox;
+  useEffect(() => {
+    if (toolboxVisible) return;
+    setMeasureTool(null);
+    setMeasureDraft([]);
+  }, [toolboxVisible]);
+
   const startTime = useRef(Date.now());
   const geocodeCache = useRef<Map<string, string>>(new Map());
   const geocodeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -897,6 +986,11 @@ export default function Dashboard() {
           onFollowInterrupt={() => setFollowUser(false)}
           navigating={Boolean(navSession)}
           aircraftAirports={aircraftAirports}
+          measureTool={measureTool}
+          measurements={measurements}
+          measureUnit={measureUnit}
+          onMeasureDraft={setMeasureDraft}
+          onMeasureCommit={handleMeasureCommit}
         />
       </ErrorBoundary>
 
@@ -1213,6 +1307,34 @@ export default function Dashboard() {
         </div>
 
         <div className="relative group">
+          <button onClick={() => { if (showToolbox) { closeToolbox(); } else { setShowToolbox(true); setShowIntel(false); setShowMarkets(false); setShowAlerts(false); setShowSpaceCam(false); setShowTargetLib(false); setShowEntityGraph(false); } }} className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${showToolbox ? 'bg-[var(--cyan-primary)]/20' : 'hover:bg-white/10'}`} title="Toolbox — ruler, area, range rings and bearing">
+            <Ruler className={`w-4 h-4 ${showToolbox ? 'text-[var(--cyan-primary)]' : 'text-white/60'}`} />
+          </button>
+          <span className="absolute right-11 top-1/2 -translate-y-1/2 px-2 py-1 text-[10px] font-mono tracking-wider text-white/80 bg-black/80 backdrop-blur-sm rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">TOOLBOX</span>
+          <AnimatePresence>
+            {showToolbox && (
+              <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} className="absolute right-12 top-1/2 -translate-y-1/2">
+                <MeasureToolbox
+                  activeTool={measureTool}
+                  onSelectTool={(t) => { setMeasureTool(t); setMeasureDraft([]); }}
+                  measurements={measurements}
+                  draft={measureDraft}
+                  unit={measureUnit}
+                  onUnitChange={setMeasureUnit}
+                  onDelete={deleteMeasurement}
+                  onClearAll={clearMeasurements}
+                  selectedId={selectedMeasurement}
+                  onSelect={setSelectedMeasurement}
+                  onLocate={locateMeasurement}
+                  cursor={measureCursor}
+                  onClose={closeToolbox}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        <div className="relative group">
           <button onClick={() => { setShowEntityGraph(!showEntityGraph); setShowIntel(false); setShowMarkets(false); setShowAlerts(false); setShowSpaceCam(false); }} className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${showEntityGraph ? 'bg-[#D4AF37]/20' : 'hover:bg-white/10'}`} title="Entity Graph — link analysis between tracked entities">
             <Network className={`w-4 h-4 ${showEntityGraph ? 'text-[var(--gold-primary)]' : 'text-white/60'}`} />
           </button>
@@ -1398,6 +1520,7 @@ export default function Dashboard() {
                 { id: 'intel' as const, icon: Newspaper, label: 'INTEL' },
                 { id: 'recon' as const, icon: Radar, label: 'RECON' },
                 { id: 'targets' as const, icon: Layers3, label: 'TARGETS' },
+                { id: 'toolbox' as const, icon: Ruler, label: 'TOOLS' },
                 { id: 'search' as const, icon: Search, label: 'SEARCH' },
                 // Routing was reachable only from the desktop tool rail, so a
                 // phone could not open it at all. It sits next to SEARCH
@@ -1454,7 +1577,7 @@ export default function Dashboard() {
                 <div className="px-3 pb-3">
                   <div className="flex items-center justify-between mb-2">
                     <span className="hud-text text-[11px] text-[var(--text-primary)]">
-                      {mobilePanel === 'layers' ? 'LAYERS & STATS' : mobilePanel === 'markets' ? 'MARKETS & INTEL' : mobilePanel === 'intel' ? 'INTEL FEED' : mobilePanel === 'targets' ? 'TARGET LIBRARY' : mobilePanel === 'recon' ? 'OSIRIS RECON' : mobilePanel === 'remote' ? 'WORLD REMOTE' : 'SEARCH'}
+                      {mobilePanel === 'layers' ? 'LAYERS & STATS' : mobilePanel === 'markets' ? 'MARKETS & INTEL' : mobilePanel === 'intel' ? 'INTEL FEED' : mobilePanel === 'targets' ? 'TARGET LIBRARY' : mobilePanel === 'toolbox' ? 'TOOLBOX' : mobilePanel === 'recon' ? 'OSIRIS RECON' : mobilePanel === 'remote' ? 'WORLD REMOTE' : 'SEARCH'}
                     </span>
                     <button onClick={() => setMobilePanel(null)} className="text-[var(--text-muted)] p-1"><X className="w-4 h-4" /></button>
                   </div>
@@ -1477,6 +1600,22 @@ export default function Dashboard() {
                   )}
                   {FEATURES.markets && mobilePanel === 'markets' && <MarketsPanel data={data} spaceWeather={spaceWeather} />}
                   {mobilePanel === 'targets' && <TargetLibraryPanel />}
+                  {mobilePanel === 'toolbox' && (
+                    <MeasureToolbox
+                      activeTool={measureTool}
+                      onSelectTool={(t) => { setMeasureTool(t); setMeasureDraft([]); }}
+                      measurements={measurements}
+                      draft={measureDraft}
+                      unit={measureUnit}
+                      onUnitChange={setMeasureUnit}
+                      onDelete={deleteMeasurement}
+                      onClearAll={clearMeasurements}
+                      selectedId={selectedMeasurement}
+                      onSelect={setSelectedMeasurement}
+                      onLocate={(pts) => { locateMeasurement(pts); setMobilePanel(null); }}
+                      cursor={measureCursor}
+                    />
+                  )}
                   {mobilePanel === 'intel' && <IntelFeed data={data} onLocate={(lat, lng) => { setFlyToLocation({ lat, lng, ts: Date.now() }); setMobilePanel(null); }} />}
                   {mobilePanel === 'search' && (
                     <div className="space-y-2">

@@ -5,6 +5,11 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { Protocol } from 'pmtiles';
 import { SCENES_BY_DATE, sceneFootprint } from '@/lib/imageryScenes';
+import {
+  measureGeometry, measureStats, summarise, midpoint, centroid, formatDistance,
+  FIXED_POINT_TOOLS, MIN_POINTS, MEASURE_COLORS,
+  type LngLat, type Measurement, type MeasureKind, type MeasureUnit,
+} from '@/lib/measure';
 
 /* PMTiles serves a whole tile pyramid from one file over HTTP range requests.
    MapLibre cannot read that natively, so the protocol handler must be
@@ -58,6 +63,16 @@ interface OsirisMapProps {
   navigating?: boolean;
   /** Corroborated endpoint airports for watched aircraft, keyed by icao24. */
   aircraftAirports?: Record<string, Array<{ icao: string; iata?: string; city?: string; lat: number; lng: number }>>;
+  /** Measurement tool taking map clicks, or null when the toolbox is idle. */
+  measureTool?: MeasureKind | null;
+  /** Finished measurements, drawn permanently until the operator clears them. */
+  measurements?: Measurement[];
+  /** Unit the measurement labels are written in. */
+  measureUnit?: MeasureUnit;
+  /** Fires on every click and cursor move so the panel can echo a live figure. */
+  onMeasureDraft?: (points: LngLat[]) => void;
+  /** Fires once a measurement is finished — on the last click, Enter, or double-click. */
+  onMeasureCommit?: (points: LngLat[]) => void;
 }
 
 function computeSolarTerminator(): [number, number][] {
@@ -82,7 +97,55 @@ function computeSolarTerminator(): [number, number][] {
 
 const EMPTY_FC = { type: 'FeatureCollection' as const, features: [] };
 
-function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightClick, onViewStateChange, flyToLocation, projection = 'globe', mapStyle = 'dark', sweepData, scanTargets = [], demoMode = false, theme = 'core', drawnPolygons = [], arcgisLayers = [], drawingMode = false, onDrawComplete, onMapCenter, route = null, userLocation = null, followUser = false, onFollowInterrupt, navigating = false, aircraftAirports = {}, layerOpacity = {} }: OsirisMapProps) {
+const MEASURE_SHAPE_SRC = 'measure-shapes';
+const MEASURE_VERTEX_SRC = 'measure-vertices';
+const MEASURE_LABEL_SRC = 'measure-labels';
+const DRAFT_SHAPE_SRC = 'measure-draft-shape';
+const DRAFT_VERTEX_SRC = 'measure-draft-vertices';
+const DRAFT_LABEL_SRC = 'measure-draft-labels';
+
+/**
+ * Text pinned to a measurement: the headline figure plus, for a multi-leg
+ * ruler, the length of each individual leg at its midpoint.
+ */
+function measureLabelFeatures(
+  kind: MeasureKind, points: LngLat[], color: string, unit: MeasureUnit,
+): GeoJSON.Feature[] {
+  if (points.length < MIN_POINTS[kind]) return [];
+  const features: GeoJSON.Feature[] = [];
+
+  if (kind === 'distance' && points.length > 2) {
+    for (let i = 1; i < points.length; i++) {
+      features.push({
+        type: 'Feature',
+        geometry: { type: 'Point', coordinates: midpoint(points[i - 1], points[i]) },
+        properties: {
+          text: formatDistance(measureStats('distance', [points[i - 1], points[i]]).distanceM ?? 0, unit),
+          color,
+          primary: false,
+        },
+      });
+    }
+  }
+
+  // Area reads from the middle of the shape; everything else hangs off the end
+  // of the line, where the operator's cursor already is.
+  const anchor = kind === 'area'
+    ? centroid(points)
+    : kind === 'radius'
+      ? midpoint(points[0], points[1])
+      : points[points.length - 1];
+
+  features.push({
+    type: 'Feature',
+    geometry: { type: 'Point', coordinates: anchor },
+    properties: { text: summarise(kind, points, unit), color, primary: true },
+  });
+
+  return features;
+}
+
+function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightClick, onViewStateChange, flyToLocation, projection = 'globe', mapStyle = 'dark', sweepData, scanTargets = [], demoMode = false, theme = 'core', drawnPolygons = [], arcgisLayers = [], drawingMode = false, onDrawComplete, onMapCenter, route = null, userLocation = null, followUser = false, onFollowInterrupt, navigating = false, aircraftAirports = {}, layerOpacity = {}, measureTool = null, measurements = [], measureUnit = 'metric', onMeasureDraft, onMeasureCommit }: OsirisMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
   const popupRef = useRef<maplibregl.Popup | null>(null);
@@ -91,6 +154,10 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
   const prevDrawnPolygonsRef = useRef<string[]>([]);
   const prevArcgisLayersRef = useRef<string[]>([]);
   const drawingCoordsRef = useRef<number[][]>([]);
+  /** Vertices the operator has actually clicked for the in-progress measurement. */
+  const measureClicksRef = useRef<LngLat[]>([]);
+  /** Cursor position, used as the rubber-band vertex ahead of the last click. */
+  const measureHoverRef = useRef<LngLat | null>(null);
 
   /* activeLayers is a fresh object on every toggle, so depending on it directly
      would re-run the imagery effect for unrelated layers. Collapse just the
@@ -2611,6 +2678,237 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       map.off('dblclick', handleDblClick);
     };
   }, [mapReady, drawingMode, onDrawComplete]);
+
+  // ── MEASUREMENT OVERLAY ──
+  // Committed measurements and the one being dragged out share a layer stack:
+  // the draft simply feeds dashed variants of the same three sources.
+  useEffect(() => {
+    if (!mapReady || !mapRef.current) return;
+    const map = mapRef.current;
+
+    const ensureLayers = () => {
+      if (map.getSource(MEASURE_SHAPE_SRC)) return;
+      for (const id of [MEASURE_SHAPE_SRC, MEASURE_VERTEX_SRC, MEASURE_LABEL_SRC,
+                        DRAFT_SHAPE_SRC, DRAFT_VERTEX_SRC, DRAFT_LABEL_SRC]) {
+        map.addSource(id, { type: 'geojson', data: EMPTY_FC });
+      }
+
+      map.addLayer({
+        id: 'measure-fill', type: 'fill', source: MEASURE_SHAPE_SRC,
+        filter: ['==', ['geometry-type'], 'Polygon'],
+        paint: { 'fill-color': ['get', 'color'], 'fill-opacity': 0.12 },
+      });
+      map.addLayer({
+        id: 'measure-line', type: 'line', source: MEASURE_SHAPE_SRC,
+        layout: { 'line-cap': 'round', 'line-join': 'round' },
+        paint: { 'line-color': ['get', 'color'], 'line-width': 2.2 },
+      });
+      map.addLayer({
+        id: 'measure-vertex', type: 'circle', source: MEASURE_VERTEX_SRC,
+        paint: {
+          'circle-radius': 4, 'circle-color': '#000',
+          'circle-stroke-width': 2, 'circle-stroke-color': ['get', 'color'],
+        },
+      });
+      map.addLayer({
+        id: 'measure-label', type: 'symbol', source: MEASURE_LABEL_SRC,
+        layout: {
+          'text-field': ['get', 'text'],
+          'text-size': ['case', ['==', ['get', 'primary'], true], 12, 10],
+          'text-font': ['JetBrains Mono Bold', 'Open Sans Bold'],
+          'text-offset': [0, -1],
+          'text-allow-overlap': true,
+          'text-ignore-placement': true,
+        },
+        paint: {
+          'text-color': ['get', 'color'],
+          'text-halo-color': '#000000',
+          'text-halo-width': 2,
+        },
+      });
+
+      // Draft mirrors the committed styling, dashed so it reads as provisional.
+      map.addLayer({
+        id: 'measure-draft-fill', type: 'fill', source: DRAFT_SHAPE_SRC,
+        filter: ['==', ['geometry-type'], 'Polygon'],
+        paint: { 'fill-color': ['get', 'color'], 'fill-opacity': 0.08 },
+      });
+      map.addLayer({
+        id: 'measure-draft-line', type: 'line', source: DRAFT_SHAPE_SRC,
+        layout: { 'line-cap': 'round', 'line-join': 'round' },
+        paint: { 'line-color': ['get', 'color'], 'line-width': 2, 'line-dasharray': [3, 2] },
+      });
+      map.addLayer({
+        id: 'measure-draft-vertex', type: 'circle', source: DRAFT_VERTEX_SRC,
+        paint: {
+          'circle-radius': 4, 'circle-color': '#000',
+          'circle-stroke-width': 2, 'circle-stroke-color': ['get', 'color'],
+        },
+      });
+      map.addLayer({
+        id: 'measure-draft-label', type: 'symbol', source: DRAFT_LABEL_SRC,
+        layout: {
+          'text-field': ['get', 'text'],
+          'text-size': ['case', ['==', ['get', 'primary'], true], 12, 10],
+          'text-font': ['JetBrains Mono Bold', 'Open Sans Bold'],
+          'text-offset': [0, -1],
+          'text-allow-overlap': true,
+          'text-ignore-placement': true,
+        },
+        paint: {
+          'text-color': ['get', 'color'],
+          'text-halo-color': '#000000',
+          'text-halo-width': 2,
+        },
+      });
+    };
+
+    try {
+      ensureLayers();
+    } catch (e) {
+      console.warn('Measurement layers failed to initialise:', e);
+      return;
+    }
+
+    const shapes: GeoJSON.Feature[] = [];
+    const vertices: GeoJSON.Feature[] = [];
+    const labels: GeoJSON.Feature[] = [];
+    for (const m of measurements) {
+      const geometry = measureGeometry(m.kind, m.points);
+      if (geometry) shapes.push({ type: 'Feature', geometry, properties: { color: m.color } });
+      for (const p of m.points) {
+        vertices.push({
+          type: 'Feature',
+          geometry: { type: 'Point', coordinates: p },
+          properties: { color: m.color },
+        });
+      }
+      labels.push(...measureLabelFeatures(m.kind, m.points, m.color, measureUnit));
+    }
+
+    (map.getSource(MEASURE_SHAPE_SRC) as maplibregl.GeoJSONSource)?.setData({
+      type: 'FeatureCollection', features: shapes,
+    });
+    (map.getSource(MEASURE_VERTEX_SRC) as maplibregl.GeoJSONSource)?.setData({
+      type: 'FeatureCollection', features: vertices,
+    });
+    (map.getSource(MEASURE_LABEL_SRC) as maplibregl.GeoJSONSource)?.setData({
+      type: 'FeatureCollection', features: labels,
+    });
+  }, [mapReady, measurements, measureUnit]);
+
+  // ── MEASUREMENT INPUT ──
+  // Clicks build the vertex list; the cursor supplies a rubber-band vertex so
+  // the figure updates continuously instead of only on click.
+  useEffect(() => {
+    if (!mapReady || !mapRef.current) return;
+    const map = mapRef.current;
+
+    const clearDraft = () => {
+      measureClicksRef.current = [];
+      measureHoverRef.current = null;
+      for (const id of [DRAFT_SHAPE_SRC, DRAFT_VERTEX_SRC, DRAFT_LABEL_SRC]) {
+        (map.getSource(id) as maplibregl.GeoJSONSource | undefined)?.setData(EMPTY_FC);
+      }
+      onMeasureDraft?.([]);
+    };
+
+    if (!measureTool) {
+      clearDraft();
+      return;
+    }
+
+    const color = MEASURE_COLORS[measureTool];
+    const needed = FIXED_POINT_TOOLS[measureTool];
+    map.doubleClickZoom.disable();
+    map.getCanvas().style.cursor = 'crosshair';
+
+    /** Clicked vertices plus the cursor, which is what the operator is looking at. */
+    const previewPoints = (): LngLat[] => {
+      const clicks = measureClicksRef.current;
+      const hover = measureHoverRef.current;
+      if (!hover || clicks.length === 0) return clicks;
+      if (needed !== undefined && clicks.length >= needed) return clicks;
+      return [...clicks, hover];
+    };
+
+    const renderDraft = () => {
+      const points = previewPoints();
+      onMeasureDraft?.(points);
+
+      const geometry = measureGeometry(measureTool, points);
+      (map.getSource(DRAFT_SHAPE_SRC) as maplibregl.GeoJSONSource | undefined)?.setData(
+        geometry
+          ? { type: 'FeatureCollection', features: [{ type: 'Feature', geometry, properties: { color } }] }
+          : EMPTY_FC,
+      );
+      (map.getSource(DRAFT_VERTEX_SRC) as maplibregl.GeoJSONSource | undefined)?.setData({
+        type: 'FeatureCollection',
+        features: measureClicksRef.current.map((p) => ({
+          type: 'Feature' as const,
+          geometry: { type: 'Point' as const, coordinates: p },
+          properties: { color },
+        })),
+      });
+      (map.getSource(DRAFT_LABEL_SRC) as maplibregl.GeoJSONSource | undefined)?.setData({
+        type: 'FeatureCollection',
+        features: measureLabelFeatures(measureTool, points, color, measureUnit),
+      });
+    };
+
+    const commit = () => {
+      const points = [...measureClicksRef.current];
+      if (points.length >= MIN_POINTS[measureTool]) onMeasureCommit?.(points);
+      clearDraft();
+    };
+
+    // A double-click also fires two clicks; the guard stops the second one
+    // planting a duplicate vertex on top of the one that closes the shape.
+    let dblClickGuard = false;
+
+    const handleClick = (e: maplibregl.MapMouseEvent) => {
+      if (dblClickGuard) return;
+      measureClicksRef.current.push([e.lngLat.lng, e.lngLat.lat]);
+      if (needed !== undefined && measureClicksRef.current.length >= needed) {
+        commit();
+        return;
+      }
+      renderDraft();
+    };
+
+    const handleMove = (e: maplibregl.MapMouseEvent) => {
+      if (measureClicksRef.current.length === 0) return;
+      measureHoverRef.current = [e.lngLat.lng, e.lngLat.lat];
+      renderDraft();
+    };
+
+    const handleDblClick = (e: maplibregl.MapMouseEvent) => {
+      e.preventDefault();
+      dblClickGuard = true;
+      setTimeout(() => { dblClickGuard = false; }, 300);
+      commit();
+    };
+
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') clearDraft();
+      if (e.key === 'Enter') commit();
+    };
+
+    map.on('click', handleClick);
+    map.on('mousemove', handleMove);
+    map.on('dblclick', handleDblClick);
+    window.addEventListener('keydown', handleKey);
+
+    return () => {
+      map.off('click', handleClick);
+      map.off('mousemove', handleMove);
+      map.off('dblclick', handleDblClick);
+      window.removeEventListener('keydown', handleKey);
+      map.doubleClickZoom.enable();
+      map.getCanvas().style.cursor = '';
+      clearDraft();
+    };
+  }, [mapReady, measureTool, measureUnit, onMeasureDraft, onMeasureCommit]);
 
   // ── MAP CENTER REPORTING ──
   useEffect(() => {
