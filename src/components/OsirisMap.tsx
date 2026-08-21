@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback, memo } from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { Protocol } from 'pmtiles';
-import { SCENES_BY_DATE, sceneFootprint, sceneUrl } from '@/lib/imageryScenes';
+import { SCENES_BY_DATE, sceneUrl } from '@/lib/imageryScenes';
 import {
   measureGeometry, measureStats, summarise, midpoint, centroid, formatDistance,
   FIXED_POINT_TOOLS, MIN_POINTS, MEASURE_COLORS,
@@ -2522,10 +2522,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
        toggling it becomes a straight before/after flip. */
     SCENES_BY_DATE.forEach(scene => {
       const srcId = `imagery-${scene.id}`;
-      const fpSrcId = `${srcId}-footprint`;
       const rasterId = `${srcId}-raster`;
-      const lineId = `${srcId}-outline`;
-      const labelId = `${srcId}-label`;
       const on = !!(activeLayers as Record<string, boolean>)[scene.id];
 
       if (on) {
@@ -2547,43 +2544,14 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
           }, anchor);
         }
 
-        /* The AOI is ~2 x 11 km. Below the archive's min zoom there are no
-           tiles at all, so without a footprint the layer reads as broken when
-           you switch it on from a global view. The outline is always drawn. */
-        if (!map.getSource(fpSrcId)) {
-          map.addSource(fpSrcId, { type: 'geojson', data: sceneFootprint(scene) });
-          map.addLayer({
-            id: lineId,
-            type: 'line',
-            source: fpSrcId,
-            paint: {
-              'line-color': '#F26722',
-              'line-width': ['interpolate', ['linear'], ['zoom'], 3, 1, 10, 1.6, 16, 2.4],
-              'line-opacity': 0.9,
-            },
-          });
-          map.addLayer({
-            id: labelId,
-            type: 'symbol',
-            source: fpSrcId,
-            maxzoom: 13,
-            layout: {
-              'text-field': ['get', 'label'],
-              'text-size': 10,
-              'text-offset': [0, -1.2],
-              'text-anchor': 'bottom',
-              'text-allow-overlap': false,
-            },
-            paint: {
-              'text-color': '#F26722',
-              'text-halo-color': '#06060C',
-              'text-halo-width': 1.5,
-            },
-          });
-        }
+        /* No footprint outline is drawn. The archive's bounds are the
+           axis-aligned envelope of a rotated capture, so the rectangle sat
+           well outside the imagery on every side and read as a boundary that
+           is not there. The layer panel's focus button is how you find the
+           scene from a global view. */
       } else {
-        [labelId, lineId, rasterId].forEach(id => { if (map.getLayer(id)) map.removeLayer(id); });
-        [fpSrcId, srcId].forEach(id => { if (map.getSource(id)) map.removeSource(id); });
+        if (map.getLayer(rasterId)) map.removeLayer(rasterId);
+        if (map.getSource(srcId)) map.removeSource(srcId);
       }
     });
   }, [mapReady, imageryState, activeLayers, layerOpacity]);

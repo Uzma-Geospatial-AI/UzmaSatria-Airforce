@@ -8,8 +8,7 @@
  *
  * ── Adding a scene ──
  * Append to IMAGERY_SCENES. Nothing else needs editing: the layer panel group,
- * the map sources, the footprint outlines and the focus buttons are all built
- * from this array.
+ * the map sources and the focus buttons are all built from this array.
  *
  * `bounds`, `minzoom` and `maxzoom` come from the PMTiles header rather than
  * being guessed — read them with:
@@ -72,17 +71,4 @@ export const SCENES_BY_DATE = [...IMAGERY_SCENES].sort((a, b) => a.date.localeCo
 export function sceneCenter(s: ImageryScene): { lng: number; lat: number } {
   const [w, so, e, n] = s.bounds;
   return { lng: (w + e) / 2, lat: (so + n) / 2 };
-}
-
-/** Footprint as a GeoJSON polygon, drawn so the AOI is findable when zoomed out. */
-export function sceneFootprint(s: ImageryScene): GeoJSON.Feature<GeoJSON.Polygon> {
-  const [w, so, e, n] = s.bounds;
-  return {
-    type: 'Feature',
-    properties: { id: s.id, label: s.label, site: s.site },
-    geometry: {
-      type: 'Polygon',
-      coordinates: [[[w, so], [e, so], [e, n], [w, n], [w, so]]],
-    },
-  };
 }
