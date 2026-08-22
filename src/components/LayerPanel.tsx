@@ -8,7 +8,7 @@ import {
   Flame, Tv, Radio, Mountain, Anchor, Megaphone, ScanEye, Crosshair,
   Shield, ExternalLink
 } from 'lucide-react';
-import { IMAGERY_SCENES, sceneCenter } from '@/lib/imageryScenes';
+import { IMAGERY_PANEL } from '@/lib/imageryScenes';
 
 const DEFENCE_SOLUTION_URL = 'https://platform.aetosky.com/projects/9cc5286b-b4e9-4607-a796-230b0d216e46/group-view?group=defense-solution';
 /* Reuses the rail's hover state. A key no group can collide with. */
@@ -47,6 +47,8 @@ interface LayerDef {
   /** Show an opacity slider while the layer is on. Lets two captures of the
    *  same AOI be cross-faded instead of only flipped. */
   opacity?: boolean;
+  /** Derived from the layer above it — rendered indented, under its parent. */
+  child?: boolean;
 }
 
 interface LayerGroupDef {
@@ -61,15 +63,17 @@ const LAYER_GROUPS: LayerGroupDef[] = [
     label: 'IMAGERY',
     fullLabel: 'SATELLITE IMAGERY',
     icon: ScanEye,
-    /* Built from the scene registry — adding a tasked capture in
-       src/lib/imageryScenes.ts surfaces it here automatically. */
-    layers: IMAGERY_SCENES.map(s => ({
-      key: s.id,
-      label: s.label,
+    /* Built from the imagery registry — adding a tasked capture or a detection
+       overlay in src/lib/imageryScenes.ts surfaces it here automatically, with
+       each overlay ordered directly under the capture it was read off. */
+    layers: IMAGERY_PANEL.map(e => ({
+      key: e.key,
+      label: e.label,
       dataKey: '',
-      sub: s.site,
-      focus: { ...sceneCenter(s), zoom: 13 },
-      opacity: true,
+      sub: e.sub,
+      focus: e.focus,
+      opacity: e.opacity,
+      child: e.child,
     })),
   },
   {
@@ -169,6 +173,19 @@ const LAYER_GROUPS: LayerGroupDef[] = [
     ],
   },
 ];
+
+/* ── Child row connector ──
+   An elbow drawn down-and-across into a derived layer's row. Indentation on
+   its own reads as a rendering accident at this type size; the rule makes the
+   parent/child relationship deliberate. */
+function ChildElbow() {
+  return (
+    <span aria-hidden className="relative w-3 flex-shrink-0 self-stretch">
+      <span className="absolute left-[5px] top-0 bottom-1/2 w-px bg-white/15" />
+      <span className="absolute left-[5px] top-1/2 w-[7px] h-px bg-white/15" />
+    </span>
+  );
+}
 
 /* ── Minimal Toggle Switch ── */
 function ToggleSwitch({ active, onClick }: { active: boolean; onClick: () => void }) {
@@ -286,7 +303,8 @@ function LayerPanel({ data, activeLayers, setActiveLayers, isMobile, theme = 'co
                 const count = getCount(layer.dataKey, layer.catKey);
                 return (
                   <div key={layer.key}>
-                  <div className="flex items-center gap-3 px-1 py-1.5">
+                  <div className={`flex items-center gap-3 py-1.5 pr-1 ${layer.child ? 'pl-3' : 'px-1'}`}>
+                    {layer.child && <ChildElbow />}
                     <ToggleSwitch
                       active={!!isLayerActive}
                       onClick={() => toggleLayer(layer)}
@@ -420,9 +438,12 @@ function LayerPanel({ data, activeLayers, setActiveLayers, isMobile, theme = 'co
                         return (
                           <div key={layer.key}>
                           <div
-                            className="flex items-center gap-3 px-1 py-[5px] rounded-md hover:bg-white/[0.03] transition-colors cursor-pointer"
+                            className={`flex items-center gap-3 py-[5px] pr-1 rounded-md hover:bg-white/[0.03] transition-colors cursor-pointer ${
+                              layer.child ? 'pl-3' : 'px-1'
+                            }`}
                             onClick={() => toggleLayer(layer)}
                           >
+                            {layer.child && <ChildElbow />}
                             <ToggleSwitch active={!!isLayerActive} onClick={() => {}} />
                             <span className="flex-1 min-w-0">
                               <span className={`block text-[12px] font-mono uppercase tracking-wider transition-colors duration-200 ${isLayerActive ? 'text-white/70' : 'text-white/35'}`}>

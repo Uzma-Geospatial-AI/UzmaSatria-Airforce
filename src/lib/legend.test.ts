@@ -5,6 +5,7 @@ import {
   legendItemCount,
   PHANTOM_PURPLE,
 } from './legend';
+import { IMAGERY_OVERLAYS } from './imageryScenes';
 
 /** The page's own starting state: nothing switched on. */
 const ALL_OFF: Record<string, boolean> = Object.fromEntries(
@@ -105,5 +106,32 @@ describe('legendItemCount', () => {
     const sections = activeLegend({ ...ALL_OFF, weather: true, fires: true });
     // Severe weather carries two swatches, fires one.
     expect(legendItemCount(sections)).toBe(3);
+  });
+});
+
+describe('detection overlay sections', () => {
+  it('generates one section per overlay', () => {
+    for (const o of IMAGERY_OVERLAYS) {
+      expect(LEGEND_SECTIONS.map((s) => s.id)).toContain(o.id);
+    }
+  });
+
+  it('takes its swatches straight from the overlay palette, so they cannot drift', () => {
+    for (const o of IMAGERY_OVERLAYS) {
+      const section = LEGEND_SECTIONS.find((s) => s.id === o.id)!;
+      for (const [label, color] of Object.entries(o.palette)) {
+        expect(section.items).toContainEqual({ color, label });
+      }
+      // Plus one row for whatever the palette does not name.
+      expect(section.items).toContainEqual({ color: o.fallbackColor, label: 'Unclassified' });
+      expect(section.items).toHaveLength(Object.keys(o.palette).length + 1);
+    }
+  });
+
+  it('shows a detection section only while its layer is on', () => {
+    for (const o of IMAGERY_OVERLAYS) {
+      expect(activeLegend({}).map((s) => s.id)).not.toContain(o.id);
+      expect(activeLegend({ [o.id]: true }).map((s) => s.id)).toContain(o.id);
+    }
   });
 });

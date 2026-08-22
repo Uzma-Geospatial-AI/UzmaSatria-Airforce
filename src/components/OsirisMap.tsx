@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback, memo } from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { Protocol } from 'pmtiles';
-import { SCENES_BY_DATE, sceneUrl } from '@/lib/imageryScenes';
+import { SCENES_BY_DATE, sceneUrl, IMAGERY_OVERLAYS } from '@/lib/imageryScenes';
 import {
   measureGeometry, measureStats, summarise, midpoint, centroid, formatDistance,
   FIXED_POINT_TOOLS, MIN_POINTS, MEASURE_COLORS,
@@ -2880,6 +2880,153 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       clearDraft();
     };
   }, [mapReady, measureTool, measureUnit, onMeasureDraft, onMeasureCommit]);
+
+  // ── IMAGERY DETECTION OVERLAYS ──
+  /* Vector layers read off a capture: object footprints drawn over the scene
+     that produced them. Fetched once each and cached, because the file is
+     static and toggling the layer should not re-download it. */
+  const overlayCache = useRef<Map<string, GeoJSON.FeatureCollection>>(new Map());
+
+  useEffect(() => {
+    if (!mapReady || !mapRef.current) return;
+    const map = mapRef.current;
+    let cancelled = false;
+
+    IMAGERY_OVERLAYS.forEach(async (overlay) => {
+      const srcId = `overlay-${overlay.id}`;
+      const fillId = `${srcId}-fill`;
+      const lineId = `${srcId}-line`;
+      const labelId = `${srcId}-label`;
+      const on = !!(activeLayers as Record<string, boolean>)[overlay.id];
+
+      if (!on) {
+        [labelId, lineId, fillId].forEach(id => { if (map.getLayer(id)) map.removeLayer(id); });
+        if (map.getSource(srcId)) map.removeSource(srcId);
+        return;
+      }
+
+      if (map.getSource(srcId)) return;
+
+      let fc = overlayCache.current.get(overlay.id);
+      if (!fc) {
+        try {
+          const res = await fetch(overlay.url);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          fc = (await res.json()) as GeoJSON.FeatureCollection;
+          overlayCache.current.set(overlay.id, fc);
+        } catch (e) {
+          console.warn(`[OSIRIS] Detection overlay ${overlay.id} failed to load:`, e);
+          return;
+        }
+      }
+      // The await above means the operator may have switched it off since.
+      if (cancelled || !map.getStyle()) return;
+      if (!(activeLayers as Record<string, boolean>)[overlay.id]) return;
+      if (map.getSource(srcId)) return;
+
+      /* Colour is driven by the classifying property, so a class the palette
+         does not name still draws — in the fallback colour rather than not at
+         all, which is what a `match` without a default would do. */
+      const colorByClass: (string | string[])[] = ['match', ['get', overlay.classifyBy]];
+      for (const [value, color] of Object.entries(overlay.palette)) colorByClass.push(value, color);
+      colorByClass.push(overlay.fallbackColor);
+
+      map.addSource(srcId, { type: 'geojson', data: fc });
+
+      map.addLayer({
+        id: fillId,
+        type: 'fill',
+        source: srcId,
+        paint: { 'fill-color': colorByClass as never, 'fill-opacity': 0.25 },
+      });
+      map.addLayer({
+        id: lineId,
+        type: 'line',
+        source: srcId,
+        paint: {
+          'line-color': colorByClass as never,
+          'line-width': ['interpolate', ['linear'], ['zoom'], 12, 0.8, 15, 1.6, 18, 2.4],
+        },
+      });
+      /* Held back to z14: at the scale the whole airfield fits on screen these
+         labels would sit on top of each other and read as noise. */
+      map.addLayer({
+        id: labelId,
+        type: 'symbol',
+        source: srcId,
+        minzoom: 14,
+        layout: {
+          'text-field': ['get', overlay.labelBy],
+          'text-size': 10,
+          'text-font': ['JetBrains Mono Bold', 'Open Sans Bold'],
+          'text-offset': [0, 1.2],
+          'text-anchor': 'top',
+          'text-allow-overlap': false,
+        },
+        paint: {
+          'text-color': colorByClass as never,
+          'text-halo-color': '#000000',
+          'text-halo-width': 1.5,
+        },
+      });
+    });
+
+    return () => { cancelled = true; };
+  }, [mapReady, activeLayers]);
+
+  // ── IMAGERY DETECTION POPUPS ──
+  /* The attributes are the point of a detection layer — dimensions, class and
+     identification are what an analyst reads off it — so a shape is clickable
+     and reports everything the feature carries. */
+  useEffect(() => {
+    if (!mapReady || !mapRef.current) return;
+    const map = mapRef.current;
+    const fillIds = IMAGERY_OVERLAYS.map(o => `overlay-${o.id}-fill`);
+
+    const onClick = (e: maplibregl.MapMouseEvent) => {
+      const live = fillIds.filter(id => map.getLayer(id));
+      if (!live.length) return;
+      const hit = map.queryRenderedFeatures(e.point, { layers: live })[0];
+      if (!hit) return;
+
+      const p = hit.properties ?? {};
+      const row = (k: string, v: unknown, unit = '') =>
+        v === undefined || v === null || v === ''
+          ? ''
+          : `<div style="display:flex;justify-content:space-between;gap:16px">
+               <span style="color:rgba(255,255,255,.4)">${k}</span>
+               <span style="color:#fff;font-weight:600">${v}${unit}</span>
+             </div>`;
+
+      new maplibregl.Popup({ closeButton: true, maxWidth: '260px' })
+        .setLngLat(e.lngLat)
+        .setHTML(
+          `<div style="font-family:ui-monospace,monospace;font-size:11px;line-height:1.7;padding:2px">
+             <div style="font-size:12px;font-weight:700;color:#F26722;margin-bottom:6px">
+               ${p.identify ?? 'UNIDENTIFIED'}
+             </div>
+             ${row('CLASS', p.class)}
+             ${row('ID', p.id)}
+             ${row('LENGTH', p.Length, ' m')}
+             ${row('WIDTH', p.width, ' m')}
+             ${row('AREA', p.area, ' m²')}
+             ${row('PERIMETER', p.perimeter, ' m')}
+           </div>`,
+        )
+        .addTo(map);
+    };
+
+    const enter = () => { map.getCanvas().style.cursor = 'pointer'; };
+    const leave = () => { map.getCanvas().style.cursor = ''; };
+
+    map.on('click', onClick);
+    fillIds.forEach(id => { map.on('mouseenter', id, enter); map.on('mouseleave', id, leave); });
+
+    return () => {
+      map.off('click', onClick);
+      fillIds.forEach(id => { map.off('mouseenter', id, enter); map.off('mouseleave', id, leave); });
+    };
+  }, [mapReady]);
 
   // ── MAP CENTER REPORTING ──
   useEffect(() => {

@@ -1,3 +1,5 @@
+import { IMAGERY_OVERLAYS } from './imageryScenes';
+
 /**
  * What every symbol on the map means.
  *
@@ -52,6 +54,22 @@ export const PHANTOM_PURPLE = '#B388FF';
    drawing it, so the legend must not claim it is. The sdk_* and conflict_zones
    sections used to test `!== false`, which made a missing key read as on. */
 const on = (key: string) => (layers: Record<string, boolean | undefined>) => Boolean(layers[key]);
+
+/**
+ * Detection overlays describe their own palette, so their legend is generated
+ * from it rather than transcribed. Everything else in this file is a reading
+ * of paint expressions that live in OsirisMap and can drift; these cannot.
+ */
+const OVERLAY_SECTIONS: LegendSection[] = IMAGERY_OVERLAYS.map((o) => ({
+  id: o.id,
+  title: o.label.toUpperCase(),
+  visible: on(o.id),
+  items: [
+    ...Object.entries(o.palette).map(([label, color]) => ({ color, label })),
+    { color: o.fallbackColor, label: 'Unclassified' },
+  ],
+  note: 'Click a shape for its class, identification and dimensions.',
+}));
 
 export const LEGEND_SECTIONS: LegendSection[] = [
   {
@@ -301,6 +319,7 @@ export const LEGEND_SECTIONS: LegendSection[] = [
     visible: on('day_night'),
     items: [{ color: '#000022', label: 'Night side of the terminator', shape: 'fill' }],
   },
+  ...OVERLAY_SECTIONS,
 ];
 
 /**

@@ -6,9 +6,14 @@
  * it over the basemap; two captures of the same AOI stack newest-on-top so
  * you can flip between them to see what changed.
  *
- * ── Adding a scene ──
- * Append to IMAGERY_SCENES. Nothing else needs editing: the layer panel group,
- * the map sources and the focus buttons are all built from this array.
+ * Alongside the captures sit vector overlays derived from them — detections
+ * read off a scene, drawn over it as polygons.
+ *
+ * ── Adding a scene or overlay ──
+ * Append to IMAGERY_SCENES or IMAGERY_OVERLAYS. Nothing else needs editing:
+ * the layer panel group, the map sources and the focus buttons are all built
+ * from IMAGERY_PANEL, which orders each overlay directly under the capture it
+ * came off.
  *
  * `bounds`, `minzoom` and `maxzoom` come from the PMTiles header rather than
  * being guessed — read them with:
@@ -77,6 +82,100 @@ export const IMAGERY_SCENES: ImageryScene[] = [
     proxy: true,
   },
 ];
+
+/**
+ * A vector layer read off one of the captures above — object detections drawn
+ * as polygons over the imagery that produced them.
+ */
+export interface ImageryOverlay {
+  /** Layer key. Must be unique; used as the activeLayers key and source id. */
+  id: string;
+  /** Shown in the layer panel. */
+  label: string;
+  /** Second line under the label. */
+  site: string;
+  /** GeoJSON URL. Must be CORS-enabled — this is fetched by the browser. */
+  url: string;
+  /** id of the ImageryScene this was derived from; it lists under that scene. */
+  scene: string;
+  /** Feature property to colour and group by. */
+  classifyBy: string;
+  /** Feature property to write beside each shape. */
+  labelBy: string;
+  /** Colour per distinct `classifyBy` value. */
+  palette: Record<string, string>;
+  /** Colour for a class the palette does not name. */
+  fallbackColor: string;
+  /** Camera target for the focus button. */
+  center: { lng: number; lat: number };
+  focusZoom: number;
+}
+
+export const IMAGERY_OVERLAYS: ImageryOverlay[] = [
+  {
+    id: 'imagery_20260719_aircraft',
+    label: 'Aircraft Detections',
+    site: '15 objects · Paya Lebar',
+    url: 'https://digitalearthgeojson.s3.ap-southeast-5.amazonaws.com/tudm/aircraft_payalebar.geojson',
+    scene: 'imagery_20260719',
+    classifyBy: 'class',
+    labelBy: 'identify',
+    /* Military types read hot, civil reads cool, so a hostile-relevant
+       airframe is separable from an airliner at a glance. */
+    palette: {
+      'Transport': '#FF9500',
+      'Maritime Patrol': '#FF3D3D',
+      'Commercial Airliner': '#00E5FF',
+    },
+    fallbackColor: '#B0BEC5',
+    // Centre of the detection extent, not of the parent capture.
+    center: { lng: 103.90059, lat: 1.35479 },
+    focusZoom: 15,
+  },
+];
+
+/** Every overlay derived from a given capture. */
+export function overlaysForScene(sceneId: string): ImageryOverlay[] {
+  return IMAGERY_OVERLAYS.filter((o) => o.scene === sceneId);
+}
+
+export interface ImageryPanelEntry {
+  key: string;
+  label: string;
+  sub: string;
+  focus: { lng: number; lat: number; zoom: number };
+  /** Raster captures get an opacity slider; vector overlays do not need one. */
+  opacity: boolean;
+  /**
+   * True for a layer derived from the one above it. The panel indents these
+   * under their parent, so a detection layer reads as belonging to the capture
+   * it was read off rather than as a sibling of it.
+   */
+  child: boolean;
+}
+
+/**
+ * The imagery group as the panel shows it: each capture, then the overlays
+ * read off it, so a detection layer sits under the picture it came from.
+ */
+export const IMAGERY_PANEL: ImageryPanelEntry[] = IMAGERY_SCENES.flatMap((scene) => [
+  {
+    key: scene.id,
+    label: scene.label,
+    sub: scene.site,
+    focus: { ...sceneCenter(scene), zoom: 13 },
+    opacity: true,
+    child: false,
+  },
+  ...overlaysForScene(scene.id).map((o) => ({
+    key: o.id,
+    label: o.label,
+    sub: o.site,
+    focus: { ...o.center, zoom: o.focusZoom },
+    opacity: false,
+    child: true,
+  })),
+]);
 
 /** Newest last, so later scenes are added above earlier ones on the map. */
 export const SCENES_BY_DATE = [...IMAGERY_SCENES].sort((a, b) => a.date.localeCompare(b.date));
