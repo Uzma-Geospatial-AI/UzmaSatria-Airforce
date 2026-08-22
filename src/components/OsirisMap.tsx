@@ -2989,28 +2989,44 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       const hit = map.queryRenderedFeatures(e.point, { layers: live })[0];
       if (!hit) return;
 
-      const p = hit.properties ?? {};
-      const row = (k: string, v: unknown, unit = '') =>
-        v === undefined || v === null || v === ''
+      const p: Record<string, unknown> = hit.properties ?? {};
+
+      /* Field names are not consistent between detection sets — one spells it
+         `width`, another `Width` — so read by name rather than by exact key,
+         or half the table silently comes back blank. */
+      const field = (name: string): unknown => {
+        const key = Object.keys(p).find((k) => k.toLowerCase() === name.toLowerCase());
+        return key === undefined ? undefined : p[key];
+      };
+
+      // The values are third-party data going into innerHTML. Escape them.
+      const esc = (v: unknown) =>
+        String(v).replace(/[&<>"']/g, (c) =>
+          ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
+
+      const row = (k: string, name: string, unit = '') => {
+        const v = field(name);
+        return v === undefined || v === null || v === ''
           ? ''
           : `<div style="display:flex;justify-content:space-between;gap:16px">
                <span style="color:rgba(255,255,255,.4)">${k}</span>
-               <span style="color:#fff;font-weight:600">${v}${unit}</span>
+               <span style="color:#fff;font-weight:600">${esc(v)}${unit}</span>
              </div>`;
+      };
 
       new maplibregl.Popup({ closeButton: true, maxWidth: '260px' })
         .setLngLat(e.lngLat)
         .setHTML(
           `<div style="font-family:ui-monospace,monospace;font-size:11px;line-height:1.7;padding:2px">
              <div style="font-size:12px;font-weight:700;color:#F26722;margin-bottom:6px">
-               ${p.identify ?? 'UNIDENTIFIED'}
+               ${esc(field('identify') ?? 'UNIDENTIFIED')}
              </div>
-             ${row('CLASS', p.class)}
-             ${row('ID', p.id)}
-             ${row('LENGTH', p.Length, ' m')}
-             ${row('WIDTH', p.width, ' m')}
-             ${row('AREA', p.area, ' m²')}
-             ${row('PERIMETER', p.perimeter, ' m')}
+             ${row('CLASS', 'class')}
+             ${row('ID', 'id')}
+             ${row('LENGTH', 'length', ' m')}
+             ${row('WIDTH', 'width', ' m')}
+             ${row('AREA', 'area', ' m²')}
+             ${row('PERIMETER', 'perimeter', ' m')}
            </div>`,
         )
         .addTo(map);

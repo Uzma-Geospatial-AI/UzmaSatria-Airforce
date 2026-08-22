@@ -106,13 +106,18 @@ describe('IMAGERY_OVERLAYS', () => {
 });
 
 describe('overlaysForScene', () => {
-  it('returns the overlays read off that capture', () => {
-    expect(overlaysForScene('imagery_20260719').map((o) => o.id))
-      .toEqual(['imagery_20260719_aircraft']);
+  /* Driven off the registry rather than naming scenes, so adding an overlay to
+     a capture that previously had none does not turn into a false failure. */
+  it('returns exactly the overlays declared against each capture', () => {
+    for (const s of IMAGERY_SCENES) {
+      const expected = IMAGERY_OVERLAYS.filter((o) => o.scene === s.id).map((o) => o.id);
+      expect(overlaysForScene(s.id).map((o) => o.id)).toEqual(expected);
+    }
   });
 
-  it('returns nothing for a capture with no overlays', () => {
-    expect(overlaysForScene('imagery_20260512')).toEqual([]);
+  it('accounts for every overlay across all the captures', () => {
+    const gathered = IMAGERY_SCENES.flatMap((s) => overlaysForScene(s.id).map((o) => o.id));
+    expect(gathered.sort()).toEqual(IMAGERY_OVERLAYS.map((o) => o.id).sort());
   });
 
   it('returns nothing for an id that is not a scene at all', () => {

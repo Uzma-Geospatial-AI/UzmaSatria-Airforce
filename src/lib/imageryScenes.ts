@@ -132,6 +132,32 @@ export const IMAGERY_OVERLAYS: ImageryOverlay[] = [
     center: { lng: 103.90059, lat: 1.35479 },
     focusZoom: 15,
   },
+  {
+    id: 'imagery_20260512_aircraft',
+    label: 'Aircraft Detections',
+    site: '48 objects · Halim',
+    /* The '+' is part of the S3 key, not an escape. Percent-encoding it to
+       %2B makes the object 403 — it has to go over the wire literally. */
+    url: 'https://digitalearthgeojson.s3.ap-southeast-5.amazonaws.com/tudm/aircraft_halim+.geojson',
+    scene: 'imagery_20260512',
+    classifyBy: 'class',
+    labelBy: 'identify',
+    /* This set spells its classes in lower case and splits them further than
+       the Paya Lebar one does; the keys have to match the data exactly or the
+       match expression drops through to the fallback. Military reads hot,
+       civil cool, on the same principle. */
+    palette: {
+      'military transport': '#FF9500',
+      'military trainer': '#FF3D3D',
+      'transport': '#FFD700',
+      'commercial airliner': '#00E5FF',
+      'business jet': '#00E676',
+      'unidentified': '#B0BEC5',
+    },
+    fallbackColor: '#B0BEC5',
+    center: { lng: 106.89214, lat: -6.26273 },
+    focusZoom: 15,
+  },
 ];
 
 /** Every overlay derived from a given capture. */
