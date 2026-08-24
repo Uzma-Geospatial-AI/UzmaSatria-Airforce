@@ -3014,11 +3014,16 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
              </div>`;
       };
 
-      new maplibregl.Popup({ closeButton: true, maxWidth: '260px' })
+      /* globals.css strips MapLibre's own popup chrome to transparent, because
+         every popup in this app supplies its own panel. Without one of our
+         own the rows render as bare text straight onto the imagery. This one
+         is fully opaque — imagery is busy, and a translucent panel over an
+         apron full of aircraft is unreadable. */
+      new maplibregl.Popup({ closeButton: true, maxWidth: '280px', offset: 14 })
         .setLngLat(e.lngLat)
         .setHTML(
-          `<div style="font-family:ui-monospace,monospace;font-size:11px;line-height:1.7;padding:2px">
-             <div style="font-size:12px;font-weight:700;color:#F26722;margin-bottom:6px">
+          `<div style="background:#0C0E1A;border:1px solid rgba(242,103,34,0.45);border-radius:10px;padding:12px 14px;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;line-height:1.8;box-shadow:0 12px 32px rgba(0,0,0,0.55)">
+             <div style="font-size:12px;font-weight:700;color:#F26722;letter-spacing:0.06em;border-bottom:1px solid rgba(242,103,34,0.25);padding-bottom:6px;margin-bottom:8px">
                ${esc(field('identify') ?? 'UNIDENTIFIED')}
              </div>
              ${row('CLASS', 'class')}
