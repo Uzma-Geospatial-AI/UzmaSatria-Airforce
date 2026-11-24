@@ -57,7 +57,7 @@ export const IMAGERY_SCENES: ImageryScene[] = [
     label: '19 Jul 2026',
     date: '2026-07-19',
     site: 'Paya Lebar, Singapore',
-    url: 'https://digitalearthbasemap.s3.ap-southeast-1.amazonaws.com/payalebar.pmtiles',
+    url: 'https://digitalearthbasemap.s3.ap-southeast-1.amazonaws.com/pmtiles/payalebar.pmtiles',
     // Straight from the PMTiles header, not estimated.
     bounds: [103.849, 1.30254, 103.9389999, 1.39306],
     minzoom: 10,
@@ -72,7 +72,7 @@ export const IMAGERY_SCENES: ImageryScene[] = [
     label: '12 May 2026',
     date: '2026-05-12',
     site: 'Halim Perdanakusuma, Jakarta',
-    url: 'https://digitalearthbasemap.s3.ap-southeast-1.amazonaws.com/halim.pmtiles',
+    url: 'https://digitalearthbasemap.s3.ap-southeast-1.amazonaws.com/pmtiles/halim.pmtiles',
     // Straight from the PMTiles header, not estimated. Note the shallower
     // max zoom than the Paya Lebar capture — this archive stops at 18.
     bounds: [106.844, -6.31151, 106.953, -6.22068],
